@@ -1,0 +1,18 @@
+server:
+  port: "8080"
+  readTimeout: "10s"
+  writeTimeout: "10s"
+
+database:
+  host: "postgres-ag-br1-03.conteige.cloud"
+  port: "54234"
+  user: "fcobdj_evodrones"
+  password: "67573962"
+  database: "fcobdj_evodrones"
+  ssl_mode: "disable"
+
+jwt:
+  secret_key: "evodrones_jwt_secret_key_secure_2025"
+  accessTokenTTL: "15m"
+  refreshTokenTTL: "24h"
+  signingMethod: "HS256"

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Técnico - EVO DRONES</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: var(--evo-gradient-tech);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            z-index: 1000;
+            transition: var(--evo-transition);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: var(--evo-transition);
+        }
+
+        .sidebar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 1.5rem;
+            border-radius: 0;
+            transition: var(--evo-transition);
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--evo-primary);
+        }
+
+        .sidebar-nav .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(48, 180, 232, 0.1);
+            transition: var(--evo-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--evo-gradient-primary);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .maintenance-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(48, 180, 232, 0.1);
+            transition: var(--evo-transition);
+            position: relative;
+        }
+
+        .maintenance-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .priority-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .priority-high {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .priority-medium {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .priority-low {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .status-in-progress {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .quick-action-btn {
+            background: var(--evo-gradient-primary);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--evo-transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--evo-glow);
+            color: white;
+        }
+
+        .navbar-top {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.2rem;
+            width: 2px;
+            height: calc(100% + 0.5rem);
+            background: #e5e7eb;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-evo-light">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-4">
+            <!-- Logo -->
+            <div class="d-flex align-items-center mb-4">
+                <span class="fw-bold fs-4 text-evo-primary">EVO</span>
+                <span class="fw-light fs-4 text-white ms-2">DRONES</span>
+            </div>
+
+            <!-- Menu -->
+            <ul class="nav flex-column sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#orders">
+                        <i class="bi bi-list-check"></i>
+                        <span>Ordens de Serviço</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#drones">
+                        <i class="bi bi-drone"></i>
+                        <span>Drones em Atendimento</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#reports">
+                        <i class="bi bi-file-text"></i>
+                        <span>Relatórios Técnicos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#schedule">
+                        <i class="bi bi-calendar"></i>
+                        <span>Agenda</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inventory">
+                        <i class="bi bi-box"></i>
+                        <span>Estoque de Peças</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#profile">
+                        <i class="bi bi-person"></i>
+                        <span>Perfil</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link" href="/login" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content" id="mainContent">
+        <!-- Navbar Superior -->
+        <nav class="navbar-top">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-link d-md-none" id="sidebarToggle">
+                            <i class="bi bi-list fs-4"></i>
+                        </button>
+                        <div class="ms-3">
+                            <h4 class="mb-0 fw-bold text-evo-dark">Dashboard Técnico</h4>
+                            <small class="text-muted">Gerencie suas ordens de serviço</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Notificações -->
+                        <div class="dropdown">
+                            <button class="btn btn-link position-relative" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell fs-5"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    5
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">Notificações</h6></li>
+                                <li><a class="dropdown-item" href="#">Nova ordem de serviço - Urgente</a></li>
+                                <li><a class="dropdown-item" href="#">Peça chegou no estoque</a></li>
+                                <li><a class="dropdown-item" href="#">Cliente aprovou orçamento</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Perfil -->
+                        <div class="dropdown">
+                            <button class="btn btn-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                <div class="bg-evo-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <span class="fw-semibold" id="userName">Carlos Técnico</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                                <li><a class="dropdown-item" href="#settings"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/login" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo das Páginas -->
+        <div class="container-fluid py-4">
+            <!-- Dashboard Principal -->
+            <div id="dashboardContent">
+                <!-- Cards de Estatísticas -->
+                <div class="row g-4 mb-4" data-aos="fade-up">
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-3">
+                                    <i class="bi bi-clock fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-warning mb-1" id="pendingOrders">8</h3>
+                            <p class="text-muted mb-0">Ordens Pendentes</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-info bg-opacity-10 text-info rounded-circle p-3">
+                                    <i class="bi bi-tools fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-info mb-1" id="inProgressOrders">3</h3>
+                            <p class="text-muted mb-0">Em Andamento</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-success bg-opacity-10 text-success rounded-circle p-3">
+                                    <i class="bi bi-check-circle fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-success mb-1" id="completedToday">2</h3>
+                            <p class="text-muted mb-0">Concluídas Hoje</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-evo-accent bg-opacity-10 text-evo-accent rounded-circle p-3">
+                                    <i class="bi bi-star fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-evo-accent mb-1" id="monthlyRating">4.8</h3>
+                            <p class="text-muted mb-0">Avaliação Mensal</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ações Rápidas -->
+                <div class="row g-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-12">
+                        <div class="stats-card">
+                            <h5 class="fw-bold mb-4">Ações Rápidas</h5>
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <button class="quick-action-btn w-100 text-center" onclick="showCreateReportModal()">
+                                        <i class="bi bi-file-plus"></i>
+                                        Criar Relatório
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="quick-action-btn w-100 text-center" onclick="showUpdateStatusModal()">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                        Atualizar Status
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="quick-action-btn w-100 text-center" onclick="showPage('inventory')">
+                                        <i class="bi bi-box"></i>
+                                        Verificar Estoque
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="quick-action-btn w-100 text-center" onclick="showPage('schedule')">
+                                        <i class="bi bi-calendar-check"></i>
+                                        Ver Agenda
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="row g-4">
+                    <!-- Ordens Prioritárias -->
+                    <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold mb-0">Ordens Prioritárias</h5>
+                                <a href="#" class="text-evo-primary text-decoration-none" onclick="showPage('orders')">Ver todas</a>
+                            </div>
+                            <div id="ordersContainer">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="maintenance-card border-start border-danger border-4">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-exclamation-triangle text-danger fs-3 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">OS #2024-001</h6>
+                                                        <small class="text-muted">DJI Mavic Pro - Cliente: João Silva</small>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <span class="priority-badge priority-high">Alta Prioridade</span>
+                                                    <span class="priority-badge status-pending">Pendente</span>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted small mb-3">Problema: Drone não liga após queda. Cliente relatou que o equipamento parou de funcionar completamente.</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Prazo: 25/05/2024</small>
+                                                <div class="d-flex gap-2">
+                                                    <button class="btn btn-outline-evo-primary btn-sm">Ver Detalhes</button>
+                                                    <button class="btn btn-evo-primary btn-sm">Iniciar Atendimento</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="maintenance-card border-start border-warning border-4">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-tools text-warning fs-3 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">OS #2024-002</h6>
+                                                        <small class="text-muted">DJI Mini 3 Pro - Cliente: Maria Santos</small>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <span class="priority-badge priority-medium">Média Prioridade</span>
+                                                    <span class="priority-badge status-in-progress">Em Andamento</span>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted small mb-3">Problema: Gimbal instável durante voo. Necessário calibração e possível troca de peças.</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Prazo: 27/05/2024</small>
+                                                <div class="d-flex gap-2">
+                                                    <button class="btn btn-outline-evo-primary btn-sm">Atualizar Status</button>
+                                                    <button class="btn btn-evo-primary btn-sm">Adicionar Relatório</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="maintenance-card border-start border-success border-4">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-check-circle text-success fs-3 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">OS #2024-003</h6>
+                                                        <small class="text-muted">DJI Air 3 - Cliente: Pedro Costa</small>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-2">
+                                                    <span class="priority-badge priority-low">Baixa Prioridade</span>
+                                                    <span class="priority-badge status-completed">Concluída</span>
+                                                </div>
+                                            </div>
+                                            <p class="text-muted small mb-3">Problema: Manutenção preventiva realizada com sucesso. Todas as verificações foram aprovadas.</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Concluída: 23/05/2024</small>
+                                                <div class="d-flex gap-2">
+                                                    <button class="btn btn-outline-success btn-sm">Ver Relatório</button>
+                                                    <button class="btn btn-success btn-sm">Entregar ao Cliente</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agenda e Atividades -->
+                    <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                        <!-- Agenda do Dia -->
+                        <div class="stats-card">
+                            <h5 class="fw-bold mb-4">Agenda de Hoje</h5>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="d-flex">
+                                        <div class="timeline-marker bg-evo-primary"></div>
+                                        <div class="timeline-content ms-3">
+                                            <h6 class="fw-semibold mb-1">09:00 - Diagnóstico</h6>
+                                            <p class="text-muted small mb-1">DJI Mavic Pro - OS #2024-001</p>
+                                            <span class="text-muted small">Em 30 minutos</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="d-flex">
+                                        <div class="timeline-marker bg-warning"></div>
+                                        <div class="timeline-content ms-3">
+                                            <h6 class="fw-semibold mb-1">11:00 - Calibração</h6>
+                                            <p class="text-muted small mb-1">DJI Mini 3 Pro - OS #2024-002</p>
+                                            <span class="text-muted small">Em 2h 30min</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-item">
+                                    <div class="d-flex">
+                                        <div class="timeline-marker bg-success"></div>
+                                        <div class="timeline-content ms-3">
+                                            <h6 class="fw-semibold mb-1">14:00 - Entrega</h6>
+                                            <p class="text-muted small mb-1">DJI Air 3 - OS #2024-003</p>
+                                            <span class="text-muted small">Em 5h 30min</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Estatísticas Rápidas -->
+                        <div class="stats-card mt-4">
+                            <h5 class="fw-bold mb-4">Estatísticas da Semana</h5>
+                            <div class="row g-3">
+                                <div class="col-6">
+                                    <div class="text-center p-3 bg-evo-light rounded-3">
+                                        <h4 class="fw-bold text-evo-primary mb-1">12</h4>
+                                        <small class="text-muted">Ordens Concluídas</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center p-3 bg-evo-light rounded-3">
+                                        <h4 class="fw-bold text-success mb-1">98%</h4>
+                                        <small class="text-muted">Taxa de Sucesso</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center p-3 bg-evo-light rounded-3">
+                                        <h4 class="fw-bold text-warning mb-1">2.5h</h4>
+                                        <small class="text-muted">Tempo Médio</small>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="text-center p-3 bg-evo-light rounded-3">
+                                        <h4 class="fw-bold text-info mb-1">4.9</h4>
+                                        <small class="text-muted">Avaliação</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Peças em Falta -->
+                        <div class="stats-card mt-4">
+                            <h5 class="fw-bold mb-4">Peças em Falta</h5>
+                            <div class="d-flex align-items-center p-3 bg-danger bg-opacity-10 rounded-3 mb-3">
+                                <div class="bg-danger bg-opacity-20 text-danger rounded-circle p-2 me-3">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-semibold mb-1">Hélices DJI Mavic</h6>
+                                    <small class="text-muted">Estoque: 0 unidades</small>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center p-3 bg-warning bg-opacity-10 rounded-3">
+                                <div class="bg-warning bg-opacity-20 text-warning rounded-circle p-2 me-3">
+                                    <i class="bi bi-exclamation-circle"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="fw-semibold mb-1">Bateria Mini 3</h6>
+                                    <small class="text-muted">Estoque: 2 unidades</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="../../../assets/js/main.js"></script>
+
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            duration: 600,
+            once: true
+        });
+
+        // Função de logout
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.href = '/login';
+        }
+
+        // Mostrar modal de criar relatório
+        function showCreateReportModal() {
+            EvoDrones.showToast('Funcionalidade de relatório em desenvolvimento!', 'info');
+        }
+
+        // Mostrar modal de atualizar status
+        function showUpdateStatusModal() {
+            EvoDrones.showToast('Funcionalidade de atualização de status em desenvolvimento!', 'info');
+        }
+
+        function showPage(page) {
+            EvoDrones.showToast(`Navegando para ${page}...`, 'info');
+        }
+
+        // Toggle sidebar mobile
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Atualizar horários em tempo real
+        function updateTimeLabels() {
+            const now = new Date();
+            const timeElements = document.querySelectorAll('[data-time]');
+
+            timeElements.forEach(element => {
+                const targetTime = new Date(element.dataset.time);
+                const diff = targetTime - now;
+
+                if (diff > 0) {
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                    if (hours > 0) {
+                        element.textContent = `Em ${hours}h ${minutes}min`;
+                    } else {
+                        element.textContent = `Em ${minutes} minutos`;
+                    }
+                } else {
+                    element.textContent = 'Agora';
+                    element.classList.add('text-danger', 'fw-bold');
+                }
+            });
+        }
+
+        // Atualizar a cada minuto
+        setInterval(updateTimeLabels, 60000);
+        updateTimeLabels(); // Executar imediatamente
+    </script>
+</body>
+</html>

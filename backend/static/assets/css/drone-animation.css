@@ -1,0 +1,65 @@
+/* 
+ * EVO DRONES - Animações do Drone Divertido
+ * Estilos e animações específicas para o SVG do drone
+ */
+
+/* Animações principais */
+@keyframes float-fun {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(-2deg); }
+  50% { transform: translateY(-25px) rotate(0deg); }
+  75% { transform: translateY(-15px) rotate(2deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes spin-propeller {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes bounce-mini {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes shake-antenna {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-2px) rotate(-5deg); }
+  75% { transform: translateX(2px) rotate(5deg); }
+}
+
+@keyframes pulse-light {
+  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 2px var(--evo-primary)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 8px var(--evo-primary)); }
+}
+
+@keyframes camera-scan {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+/* Classes de animação */
+.animate-float-fun { animation: float-fun 6s ease-in-out infinite; }
+.animate-wiggle { animation: wiggle 3s ease-in-out infinite; }
+.animate-blink { animation: blink 1s ease-in-out infinite; }
+.animate-spin-propeller { animation: spin-propeller 0.2s linear infinite; }
+.animate-spin-propeller-reverse { animation: spin-propeller 0.2s linear infinite reverse; }
+.animate-bounce-mini { animation: bounce-mini 2s ease-in-out infinite; }
+.animate-shake-antenna { animation: shake-antenna 2s ease-in-out infinite; }
+.animate-pulse-light { animation: pulse-light 2s ease-in-out infinite; }
+.animate-camera-scan { animation: camera-scan 3s ease-in-out infinite; }
+
+/* Efeitos de hover */
+.drone-svg:hover .drone-eye { animation: blink 0.5s ease-in-out infinite; }
+.drone-svg:hover .drone-body { animation: bounce-mini 1s ease-in-out infinite; }
+.drone-svg:hover .drone-propeller { animation-duration: 0.1s !important; }

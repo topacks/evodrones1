@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVO DRONES - Futuro da Tecnologia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/home.css">
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div id="particles-container"></div>
+    
+    <!-- Three.js 3D Background -->
+    <div id="three-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full bg-black bg-opacity-80 z-50 border-b border-cyan-500">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold orbitron neon-blue">EVO DRONES</a>
+                <div class="hidden md:flex space-x-4">
+                    <a href="#" class="nav-link neon-cyan">HOME</a>
+                    <a href="#tech" class="nav-link neon-cyan">NOSSOS TRABALHOS</a>
+                    <a href="#contact" class="nav-link neon-cyan">CONTATO</a>
+                    <a href="/pages/auth/register/index.html" class="tech-btn register-btn px-4 py-2 rounded-lg text-sm nav-btn">
+                        <i class="fas fa-user-plus mr-2"></i>REALIZE SEU CADASTRO
+                    </a>
+                    <a href="/pages/auth/login.html" class="tech-btn login-btn px-4 py-2 rounded-lg text-sm nav-btn">
+                        <i class="fas fa-sign-in-alt mr-2"></i>EFETUE LOGIN
+                    </a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-2xl neon-cyan">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Menu Mobile -->
+            <div id="mobile-menu" class="hidden md:hidden py-4 mt-2">
+                <div class="flex flex-col space-y-3">
+                    <a href="#" class="nav-link neon-cyan block py-2">HOME</a>
+                    <a href="#tech" class="nav-link neon-cyan block py-2">NOSSOS TRABALHOS</a>
+                    <a href="#contact" class="nav-link neon-cyan block py-2">CONTATO</a>
+                    <div class="nav-btn-container mt-4">
+                        <a href="/pages/auth/register/index.html" class="tech-btn register-btn block py-3 text-center">
+                            <i class="fas fa-user-plus mr-2"></i>REALIZE SEU CADASTRO
+                        </a>
+                        <a href="/pages/auth/login.html" class="tech-btn login-btn block py-3 text-center mt-3">
+                            <i class="fas fa-sign-in-alt mr-2"></i>EFETUE LOGIN
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="particles" id="particles"></div>
+        <div class="matrix-rain" id="matrix-canvas"></div>
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col items-center justify-center mb-4">
+                <img src="/assets/images/logogrande.png" alt="Evo Drones Logo" class="w-64 h-auto mb-4 logo-glow">
+            </div>
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-bold orbitron neon-cyan mb-6">
+                    A melhor Manutenção
+                </h2>
+                <p class="text-xl md:text-2xl mb-8 text-gray-300">
+                    Tecnologia de ponta para manutenção especializada e serviços premium para drones.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="#tech" class="tech-btn px-8 py-4 rounded-lg text-lg">
+                        <i class="fas fa-cogs mr-2"></i>NOSSOS TRABALHOS
+                    </a>
+                    <a href="#contact" class="tech-btn px-8 py-4 rounded-lg text-lg">
+                        <i class="fas fa-paper-plane mr-2"></i>CONTATO
+                    </a>
+                    <a href="/pages/auth/register/index.html" class="tech-btn register-btn px-8 py-4 rounded-lg text-lg">
+                        <i class="fas fa-user-plus mr-2"></i>REALIZE SEU CADASTRO
+                    </a>
+                    <a href="/pages/auth/login.html" class="tech-btn login-btn px-8 py-4 rounded-lg text-lg">
+                        <i class="fas fa-sign-in-alt mr-2"></i>EFETUE LOGIN
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tech Grid Section -->
+    <section id="tech" class="content-section">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title">NOSSOS TRABALHOS</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="tech-card p-8 text-center">
+                    <div class="text-5xl mb-6 neon-cyan">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold neon-cyan mb-4">ANÁLISE ESPECIALIZADA</h3>
+                    <p class="text-gray-300">Diagnóstico completo e detalhado do seu equipamento com tecnologia de ponta para identificar problemas com precisão.</p>
+                </div>
+                <div class="tech-card p-8 text-center">
+                    <div class="text-5xl mb-6 neon-blue">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold neon-blue mb-4">PEÇAS GENUÍNAS</h3>
+                    <p class="text-gray-300">Componentes originais e de alta qualidade para garantir o desempenho ideal e a durabilidade do seu drone.</p>
+                </div>
+                <div class="tech-card p-8 text-center">
+                    <div class="text-5xl mb-6 neon-purple">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold neon-purple mb-4">SEGURANÇA</h3>
+                    <p class="text-gray-300">Proteção avançada para seus equipamentos e dados, garantindo operações seguras e confiáveis.</p>
+                </div>
+                <div class="tech-card p-8 text-center">
+                    <div class="text-5xl mb-6 neon-cyan">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold neon-cyan mb-4">VOCÊ NO CONTROLE - LAUDO CAUTELAR</h3>
+                    <p class="text-gray-300">Documentação detalhada do estado atual do seu equipamento, ideal para compras, vendas e seguros.</p>
+                </div>
+                <div class="tech-card p-8 text-center">
+                    <div class="text-5xl mb-6 neon-blue">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold neon-blue mb-4">MAN. CORRETIVA</h3>
+                    <p class="text-gray-300">Serviços de reparo rápidos e eficientes para resolver problemas e devolver seu drone ao ar com segurança.</p>
+                </div>
+                <div class="tech-card p-8 text-center">
+                    <div class="text-5xl mb-6 neon-purple">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold neon-purple mb-4">MAN. PREVENTIVA</h3>
+                    <p class="text-gray-300">Cuidados antecipados e verificações periódicas para evitar falhas e prolongar a vida útil do seu equipamento.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section Removida conforme solicitado -->
+    
+    <!-- Contact Section -->
+    <section id="contact" class="content-section">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title">CONECTE-SE</h2>
+            <div class="max-w-2xl mx-auto">
+                <div class="tech-card p-8 hologram">
+                    <form class="space-y-6">
+                        <div>
+                            <input type="text" placeholder="NOME" class="w-full bg-transparent border-b-2 border-cyan-500 p-3 neon-cyan focus:outline-none focus:border-cyan-300">
+                        </div>
+                        <div>
+                            <input type="email" placeholder="EMAIL" class="w-full bg-transparent border-b-2 border-cyan-500 p-3 neon-cyan focus:outline-none focus:border-cyan-300">
+                        </div>
+                        <div>
+                            <textarea placeholder="MENSAGEM" rows="4" class="w-full bg-transparent border-b-2 border-cyan-500 p-3 neon-cyan focus:outline-none focus:border-cyan-300 resize-none"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="tech-btn px-8 py-4 rounded-lg text-lg">
+                                <i class="fas fa-paper-plane mr-2"></i>ENVIAR
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-black border-t-2 border-cyan-500 py-8">
+        <div class="container mx-auto px-6">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EVO DRONES</h3>
+                    <p>Tecnologia futurista para um mundo conectado. Sistemas autônomos inteligentes.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>SERVIÇOS</h3>
+                    <p><a href="#">Análise Especializada</a></p>
+                    <p><a href="#">Peças Genuínas</a></p>
+                    <p><a href="#">Segurança</a></p>
+                    <p><a href="#">Laudo Cautelar</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>MANUTENÇÃO</h3>
+                    <p><a href="#">Corretiva</a></p>
+                    <p><a href="#">Preventiva</a></p>
+                    <p><a href="#">Relatórios</a></p>
+                    <p><a href="#">Suporte</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>CONEXÃO</h3>
+                    <p>contato@evodrones.tech</p>
+                    <p>+55 (11) 2077-2024</p>
+                    <p>São Paulo, SP</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 EVO DRONES - Tecnologia Futurista Avançada</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/pages/public/home/home.js"></script>
+</body>
+</html>

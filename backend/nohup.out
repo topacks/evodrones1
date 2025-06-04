@@ -1,0 +1,61 @@
+2025/05/29 02:44:32 Servidor iniciando na porta 8080
+
+ ┌───────────────────────────────────────────────────┐ 
+ │                   EvoDrones API                   │ 
+ │                   Fiber v2.52.0                   │ 
+ │               http://127.0.0.1:8080               │ 
+ │       (bound on host 0.0.0.0 and port 8080)       │ 
+ │                                                   │ 
+ │ Handlers ........... 100  Processes ........... 1 │ 
+ │ Prefork ....... Disabled  PID ............ 822495 │ 
+ └───────────────────────────────────────────────────┘ 
+
+02:44:47 | 200 |    4.208601ms | 127.0.0.1 | HEAD | / | -
+02:44:49 | 404 |       142.4µs | 127.0.0.1 | GET | /assets/images/logo-evo-drones-white.png | Cannot GET /assets/images/logo-evo-drones-white.png
+02:44:49 | 404 |       135.2µs | 127.0.0.1 | GET | /assets/images/team-working.jpg | Cannot GET /assets/images/team-working.jpg
+02:44:49 | 404 |          92µs | 127.0.0.1 | GET | /assets/images/favicon.png | Cannot GET /assets/images/favicon.png
+02:44:51 | 304 |       127.6µs | 127.0.0.1 | GET | /pages/auth/register/ | -
+02:44:52 | 200 |     413.499µs | 127.0.0.1 | GET | /pages/auth/register/ | -
+02:44:52 | 200 |       376.9µs | 127.0.0.1 | GET | /assets/css/main.css | -
+02:44:52 | 200 |        85.4µs | 127.0.0.1 | GET | /assets/images/logogrande.png | -
+02:44:52 | 200 |       168.5µs | 127.0.0.1 | GET | /assets/js/main.js | -
+02:44:53 | 404 |       171.4µs | 127.0.0.1 | GET | /assets/images/favicon.png | Cannot GET /assets/images/favicon.png
+02:45:38 | 200 |       198.1µs | 127.0.0.1 | GET | /register | -
+02:45:48 | 200 |       100.3µs | 127.0.0.1 | GET | /register | -
+02:46:48 | 200 |         112µs | 127.0.0.1 | GET | /register | -
+05:05:49 | 200 |       530.6µs | 127.0.0.1 | GET | /register | -
+05:05:49 | 304 |        84.3µs | 127.0.0.1 | GET | /assets/css/main.css | -
+05:05:49 | 304 |        79.9µs | 127.0.0.1 | GET | /assets/images/logogrande.png | -
+05:05:49 | 304 |        60.9µs | 127.0.0.1 | GET | /assets/js/main.js | -
+05:05:53 | 200 |          84µs | 127.0.0.1 | GET | /register | -
+05:05:53 | 200 |       133.4µs | 127.0.0.1 | GET | /assets/css/main.css | -
+05:05:53 | 200 |        75.2µs | 127.0.0.1 | GET | /assets/images/logogrande.png | -
+05:05:53 | 200 |         330µs | 127.0.0.1 | GET | /assets/js/main.js | -
+05:05:53 | 404 |        72.1µs | 127.0.0.1 | GET | /assets/images/favicon.png | Cannot GET /assets/images/favicon.png
+05:07:10 | 200 |         127µs | 127.0.0.1 | HEAD | /register | -
+05:07:22 | 200 |        96.3µs | 127.0.0.1 | GET | /register | -
+05:13:02 | 200 |       115.1µs | 127.0.0.1 | HEAD | /register | -
+05:13:25 | 200 |       135.3µs | 127.0.0.1 | GET | /register | -
+05:13:35 | 304 |       262.4µs | 127.0.0.1 | GET | / | -
+05:13:35 | 404 |        93.5µs | 127.0.0.1 | GET | /favicon.ico | Cannot GET /favicon.ico
+05:13:35 | 304 |       102.2µs | 127.0.0.1 | GET | /pages/public/home/ | -
+05:13:35 | 304 |        80.7µs | 127.0.0.1 | GET | /assets/css/drone-animation.css | -
+05:13:35 | 404 |         100µs | 127.0.0.1 | GET | /assets/images/logo-evo-drones-white.png | Cannot GET /assets/images/logo-evo-drones-white.png
+05:13:35 | 404 |       105.9µs | 127.0.0.1 | GET | /assets/images/team-working.jpg | Cannot GET /assets/images/team-working.jpg
+05:13:37 | 200 |       210.8µs | 127.0.0.1 | GET | /pages/auth/register/ | -
+05:13:39 | 200 |       105.2µs | 127.0.0.1 | GET | /pages/auth/register/ | -
+05:13:39 | 200 |         160µs | 127.0.0.1 | GET | /assets/css/main.css | -
+05:13:39 | 200 |       107.2µs | 127.0.0.1 | GET | /assets/images/logogrande.png | -
+05:13:39 | 200 |       213.2µs | 127.0.0.1 | GET | /assets/js/main.js | -
+05:13:40 | 404 |        82.6µs | 127.0.0.1 | GET | /assets/images/favicon.png | Cannot GET /assets/images/favicon.png
+05:14:04 | 200 |       169.9µs | 127.0.0.1 | GET | /register | -
+05:15:33 | 200 |         165µs | 127.0.0.1 | GET | /register | -
+06:38:54 | 200 |       135.1µs | 127.0.0.1 | GET | /register | -
+06:38:54 | 200 |       131.1µs | 127.0.0.1 | GET | /assets/css/main.css | -
+06:38:54 | 200 |        66.6µs | 127.0.0.1 | GET | /assets/images/logogrande.png | -
+06:38:54 | 200 |       128.8µs | 127.0.0.1 | GET | /assets/js/main.js | -
+06:38:55 | 404 |        88.2µs | 127.0.0.1 | GET | /assets/images/favicon.png | Cannot GET /assets/images/favicon.png
+06:46:58 | 200 |       121.1µs | 127.0.0.1 | GET | /register | -
+06:47:58 | 200 |       132.5µs | 127.0.0.1 | GET | /register | -
+06:49:05 | 200 |       107.2µs | 127.0.0.1 | GET | /cadastro.html | -
+signal: terminated

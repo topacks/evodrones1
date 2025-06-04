@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Script para iniciar um servidor de desenvolvimento com atualização em tempo real
+
+echo "Iniciando servidor de desenvolvimento com visualização em tempo real..."
+
+# Verificar se o browser-sync está instalado
+if ! command -v browser-sync &> /dev/null; then
+    echo "Instalando browser-sync..."
+    npm install -g browser-sync
+fi
+
+# Diretório dos arquivos estáticos
+STATIC_DIR="/root/evodrones/backend/static"
+
+# Iniciar o browser-sync
+echo "Iniciando browser-sync para o diretório $STATIC_DIR"
+browser-sync start --server "$STATIC_DIR" --files "$STATIC_DIR/**/*" --port 3000 --ui-port 3001 --no-notify

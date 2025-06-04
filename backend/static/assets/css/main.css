@@ -1,0 +1,324 @@
+/*
+ * EVO DRONES - CSS Principal
+ * Identidade Visual Baseada na Logomarca
+ * Bootstrap 5 + Customizações
+ */
+
+:root {
+  /* Cores da Identidade Visual EVO DRONES */
+  --evo-primary: #30B4E8;        /* Azul ciano principal */
+  --evo-primary-dark: #0E8BC0;   /* Azul escuro */
+  --evo-primary-light: #7FD4F7;  /* Azul claro */
+  --evo-accent: #FF7A00;         /* Laranja vibrante */
+  --evo-dark: #0F172A;           /* Azul escuro quase preto */
+  --evo-gray: #1E293B;           /* Cinza azulado */
+  --evo-light: #F8FAFC;          /* Branco suave */
+  --evo-white: #FFFFFF;          /* Branco puro */
+
+  /* Gradientes Tecnológicos */
+  --evo-gradient-primary: linear-gradient(135deg, var(--evo-primary-dark), var(--evo-primary), var(--evo-primary-light));
+  --evo-gradient-tech: linear-gradient(135deg, var(--evo-dark), var(--evo-gray));
+  --evo-gradient-accent: linear-gradient(135deg, var(--evo-accent), #FF9500);
+
+  /* Efeitos Visuais */
+  --evo-glow: 0 0 20px rgba(48, 180, 232, 0.6);
+  --evo-glow-accent: 0 0 20px rgba(255, 122, 0, 0.6);
+  --evo-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --evo-shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+  /* Transições */
+  --evo-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --evo-transition-fast: all 0.15s ease;
+  --evo-transition-slow: all 0.6s ease;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos Globais */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--evo-dark);
+  background-color: var(--evo-light);
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+  font-weight: 800;
+}
+
+/* Cores Customizadas */
+.text-evo-primary { color: var(--evo-primary) !important; }
+.text-evo-accent { color: var(--evo-accent) !important; }
+.text-evo-dark { color: var(--evo-dark) !important; }
+.text-evo-gray { color: var(--evo-gray) !important; }
+
+.bg-evo-primary { background-color: var(--evo-primary) !important; }
+.bg-evo-accent { background-color: var(--evo-accent) !important; }
+.bg-evo-dark { background-color: var(--evo-dark) !important; }
+.bg-evo-gray { background-color: var(--evo-gray) !important; }
+.bg-evo-light { background-color: var(--evo-light) !important; }
+
+.bg-gradient-evo-primary { background: var(--evo-gradient-primary) !important; }
+.bg-gradient-evo-tech { background: var(--evo-gradient-tech) !important; }
+.bg-gradient-evo-accent { background: var(--evo-gradient-accent) !important; }
+
+/* Botões Customizados */
+.btn-evo-primary {
+  background: var(--evo-gradient-primary);
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: var(--evo-transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-evo-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--evo-glow), var(--evo-shadow);
+  color: white;
+}
+
+.btn-evo-primary:active {
+  transform: translateY(0);
+}
+
+.btn-evo-accent {
+  background: var(--evo-gradient-accent);
+  border: none;
+  color: white;
+  font-weight: 600;
+  transition: var(--evo-transition);
+}
+
+.btn-evo-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--evo-glow-accent), var(--evo-shadow);
+  color: white;
+}
+
+.btn-outline-evo-primary {
+  border: 2px solid var(--evo-primary);
+  color: var(--evo-primary);
+  font-weight: 600;
+  background: transparent;
+  transition: var(--evo-transition);
+}
+
+.btn-outline-evo-primary:hover {
+  background: var(--evo-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--evo-glow);
+}
+
+/* Efeito Glow */
+.glow-effect {
+  position: relative;
+  transition: var(--evo-transition);
+}
+
+.glow-effect:hover {
+  box-shadow: var(--evo-glow);
+}
+
+.glow-accent:hover {
+  box-shadow: var(--evo-glow-accent);
+}
+
+/* Cards Tecnológicos */
+.card-tech {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(48, 180, 232, 0.1);
+  border-radius: 16px;
+  transition: var(--evo-transition);
+  overflow: hidden;
+}
+
+.card-tech:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--evo-shadow-dark);
+  border-color: var(--evo-primary);
+}
+
+.card-tech::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--evo-gradient-primary);
+}
+
+/* Animações */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px var(--evo-primary); }
+  50% { box-shadow: var(--evo-glow); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Classes de Animação */
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out; }
+.animate-slide-in-right { animation: slideInRight 0.6s ease-out; }
+
+/* Utilidades */
+.text-shadow { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
+.backdrop-blur { backdrop-filter: blur(10px); }
+.border-glow { border: 1px solid var(--evo-primary); box-shadow: 0 0 10px rgba(48, 180, 232, 0.3); }
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .display-1 { font-size: 2.5rem; }
+  .display-2 { font-size: 2rem; }
+  .display-3 { font-size: 1.75rem; }
+  .display-4 { font-size: 1.5rem; }
+}
+
+/* Scrollbar Customizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--evo-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--evo-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--evo-primary-dark);
+}
+
+/* Efeitos Hover Adicionais */
+.hover-primary:hover {
+  color: var(--evo-primary) !important;
+  transition: var(--evo-transition);
+}
+
+.social-icon:hover {
+  background: var(--evo-primary) !important;
+  color: white !important;
+  transform: translateY(-3px);
+  transition: var(--evo-transition);
+}
+
+/* Animação Bounce */
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0,-10px,0);
+  }
+  70% {
+    transform: translate3d(0,-5px,0);
+  }
+  90% {
+    transform: translate3d(0,-2px,0);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Efeitos de Loading */
+.btn-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.btn-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Navbar Transparente */
+.navbar-transparent {
+  background: rgba(15, 23, 42, 0.1) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Efeitos de Partículas */
+.particle {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Responsividade Melhorada */
+@media (max-width: 576px) {
+  .display-3 { font-size: 2rem; }
+  .display-4 { font-size: 1.75rem; }
+  .display-5 { font-size: 1.5rem; }
+
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .social-links {
+    text-align: center;
+  }
+}

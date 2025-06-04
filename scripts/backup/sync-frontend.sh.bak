@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Script para sincronizar os arquivos do frontend com o backend/static
+
+echo "Sincronizando arquivos do frontend para backend/static..."
+
+# Diretórios de origem e destino
+FRONTEND_DIR="/root/evodrones/frontend"
+BACKEND_STATIC_DIR="/root/evodrones/backend/static"
+
+# Criar diretório static se não existir
+mkdir -p "$BACKEND_STATIC_DIR"
+
+# Copiar todos os arquivos do frontend para o backend/static
+cp -r "$FRONTEND_DIR/"* "$BACKEND_STATIC_DIR/"
+
+echo "Sincronização concluída!"
+echo "Agora você pode acessar http://localhost:8080/pages/public/home/ para ver as modificações."

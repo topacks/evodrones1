@@ -1,0 +1,499 @@
+/**
+ * EVO DRONES - Visualização em Tempo Real
+ * Estilos específicos para a página de visualização em tempo real
+ */
+
+/* Variáveis de cores e efeitos */
+:root {
+  --drone-primary: #30B4E8;
+  --drone-secondary: #FF7A00;
+  --drone-success: #10B981;
+  --drone-warning: #FBBF24;
+  --drone-danger: #EF4444;
+  --drone-dark: #0F172A;
+  --drone-gray: #64748B;
+  --drone-light: #F8FAFC;
+  
+  --drone-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+  --drone-glow: 0 0 15px rgba(48, 180, 232, 0.6);
+  --drone-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Layout da página */
+.realtime-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: 100vh;
+  background-color: var(--drone-light);
+}
+
+/* Sidebar */
+.realtime-sidebar {
+  background: linear-gradient(180deg, var(--drone-dark) 0%, #1E293B 100%);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  transition: var(--drone-transition);
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.sidebar-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.sidebar-logo span {
+  color: var(--drone-primary);
+}
+
+.sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: var(--drone-transition);
+}
+
+.sidebar-nav-item:hover,
+.sidebar-nav-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sidebar-nav-item.active {
+  background-color: var(--drone-primary);
+  box-shadow: 0 5px 15px rgba(48, 180, 232, 0.3);
+}
+
+.sidebar-nav-item i {
+  font-size: 1.25rem;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 1rem 0;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+/* Conteúdo principal */
+.realtime-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.realtime-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--drone-dark);
+}
+
+.realtime-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--drone-dark);
+}
+
+.realtime-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Cards e Painéis */
+.realtime-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.realtime-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: var(--drone-shadow);
+  padding: 1.5rem;
+  transition: var(--drone-transition);
+}
+
+.realtime-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.15);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--drone-dark);
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: rgba(48, 180, 232, 0.1);
+  color: var(--drone-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+/* Mapa de visualização */
+.realtime-map {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: var(--drone-shadow);
+  padding: 1.5rem;
+  height: 500px;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f4f8;
+  border-radius: 8px;
+  position: relative;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  padding: 0.75rem;
+  box-shadow: var(--drone-shadow);
+  z-index: 5;
+}
+
+.map-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.map-control-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--drone-transition);
+}
+
+.map-control-btn:hover {
+  background-color: var(--drone-primary);
+  color: white;
+}
+
+/* Animações de drone */
+.drone-marker {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  transform-origin: center;
+  animation: drone-float 3s ease-in-out infinite;
+}
+
+@keyframes drone-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.drone-pulse {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(48, 180, 232, 0.3);
+  animation: drone-pulse 2s ease-out infinite;
+}
+
+@keyframes drone-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+/* Gráficos e estatísticas */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: var(--drone-shadow);
+  padding: 1.5rem;
+  transition: var(--drone-transition);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--drone-dark);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--drone-gray);
+}
+
+.stat-trend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.trend-up {
+  color: var(--drone-success);
+}
+
+.trend-down {
+  color: var(--drone-danger);
+}
+
+/* Tabela de dados */
+.data-table-container {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: var(--drone-shadow);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  color: var(--drone-gray);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr {
+  transition: var(--drone-transition);
+}
+
+.data-table tbody tr:hover {
+  background-color: rgba(48, 180, 232, 0.05);
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-online {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--drone-success);
+}
+
+.status-offline {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--drone-danger);
+}
+
+.status-warning {
+  background-color: rgba(251, 191, 36, 0.1);
+  color: var(--drone-warning);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+  .realtime-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .realtime-sidebar {
+    position: fixed;
+    left: -300px;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+  }
+  
+  .realtime-sidebar.show {
+    left: 0;
+  }
+  
+  .sidebar-close {
+    display: block;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .realtime-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .realtime-actions {
+    flex-direction: column;
+  }
+}
+
+/* Animações de carregamento */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(48, 180, 232, 0.1);
+  border-left-color: var(--drone-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Animações de dados */
+.data-pulse {
+  animation: data-pulse 2s ease-in-out infinite;
+}
+
+@keyframes data-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Efeitos de hover para botões */
+.btn-realtime {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: var(--drone-transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--drone-primary);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2596be;
+  box-shadow: var(--drone-glow);
+  transform: translateY(-2px);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--drone-primary);
+  color: var(--drone-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--drone-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.btn-dark {
+  background-color: var(--drone-dark);
+  color: white;
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: #1a2234;
+  transform: translateY(-2px);
+}

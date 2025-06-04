@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" class="drone-svg animate-float-fun">
+  <!-- Definições de gradientes e filtros -->
+  <defs>
+    <!-- Gradiente principal do corpo -->
+    <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a90e2" />
+      <stop offset="100%" stop-color="#2c3e50" />
+    </linearGradient>
+    
+    <!-- Gradiente para os olhos -->
+    <radialGradient id="eyeGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="20%" stop-color="#e0e0e0" />
+      <stop offset="100%" stop-color="#a0a0a0" />
+    </radialGradient>
+    
+    <!-- Gradiente para as hélices -->
+    <linearGradient id="propellerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#95a5a6" />
+      <stop offset="100%" stop-color="#7f8c8d" />
+    </linearGradient>
+    
+    <!-- Filtro de sombra -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="rgba(0,0,0,0.3)" />
+    </filter>
+    
+    <!-- Filtro de brilho -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Grupo principal do drone -->
+  <g transform="translate(400, 300)">
+    <!-- Corpo principal do drone (forma arredondada e amigável) -->
+    <ellipse cx="0" cy="0" rx="100" ry="70" fill="url(#bodyGradient)" filter="url(#shadow)" class="drone-body animate-bounce-mini" />
+    
+    <!-- Detalhes do corpo -->
+    <ellipse cx="0" cy="-10" rx="80" ry="50" fill="#34495e" opacity="0.7" />
+    <ellipse cx="0" cy="10" rx="70" ry="40" fill="#2c3e50" opacity="0.5" />
+    
+    <!-- Olhos (dando personalidade) -->
+    <circle cx="-40" cy="-15" r="15" fill="url(#eyeGradient)" class="drone-eye animate-blink" />
+    <circle cx="40" cy="-15" r="15" fill="url(#eyeGradient)" class="drone-eye animate-blink" />
+    
+    <!-- Pupilas -->
+    <circle cx="-40" cy="-15" r="7" fill="#2c3e50" />
+    <circle cx="40" cy="-15" r="7" fill="#2c3e50" />
+    
+    <!-- Brilho nos olhos -->
+    <circle cx="-43" cy="-18" r="3" fill="#ffffff" />
+    <circle cx="37" cy="-18" r="3" fill="#ffffff" />
+    
+    <!-- Sorriso -->
+    <path d="M -30 15 Q 0 40 30 15" stroke="#2c3e50" stroke-width="5" fill="none" />
+    
+    <!-- Braços do drone -->
+    <g class="drone-arms">
+      <!-- Braço frontal esquerdo -->
+      <rect x="-110" y="-10" width="60" height="20" rx="10" ry="10" fill="#7f8c8d" transform="rotate(-30)" />
+      
+      <!-- Braço frontal direito -->
+      <rect x="50" y="-10" width="60" height="20" rx="10" ry="10" fill="#7f8c8d" transform="rotate(30)" />
+      
+      <!-- Braço traseiro esquerdo -->
+      <rect x="-110" y="-10" width="60" height="20" rx="10" ry="10" fill="#7f8c8d" transform="rotate(-150)" />
+      
+      <!-- Braço traseiro direito -->
+      <rect x="50" y="-10" width="60" height="20" rx="10" ry="10" fill="#7f8c8d" transform="rotate(150)" />
+    </g>
+    
+    <!-- Motores e hélices -->
+    <g class="drone-motors">
+      <!-- Motor frontal esquerdo -->
+      <g transform="translate(-90, -50)">
+        <circle cx="0" cy="0" r="15" fill="#e74c3c" />
+        <g class="drone-propeller animate-spin-propeller">
+          <rect x="-40" y="-3" width="80" height="6" rx="3" ry="3" fill="url(#propellerGradient)" />
+          <rect x="-3" y="-40" width="6" height="80" rx="3" ry="3" fill="url(#propellerGradient)" />
+        </g>
+      </g>
+      
+      <!-- Motor frontal direito -->
+      <g transform="translate(90, -50)">
+        <circle cx="0" cy="0" r="15" fill="#e74c3c" />
+        <g class="drone-propeller animate-spin-propeller-reverse">
+          <rect x="-40" y="-3" width="80" height="6" rx="3" ry="3" fill="url(#propellerGradient)" />
+          <rect x="-3" y="-40" width="6" height="80" rx="3" ry="3" fill="url(#propellerGradient)" />
+        </g>
+      </g>
+      
+      <!-- Motor traseiro esquerdo -->
+      <g transform="translate(-90, 50)">
+        <circle cx="0" cy="0" r="15" fill="#e74c3c" />
+        <g class="drone-propeller animate-spin-propeller-reverse">
+          <rect x="-40" y="-3" width="80" height="6" rx="3" ry="3" fill="url(#propellerGradient)" />
+          <rect x="-3" y="-40" width="6" height="80" rx="3" ry="3" fill="url(#propellerGradient)" />
+        </g>
+      </g>
+      
+      <!-- Motor traseiro direito -->
+      <g transform="translate(90, 50)">
+        <circle cx="0" cy="0" r="15" fill="#e74c3c" />
+        <g class="drone-propeller animate-spin-propeller">
+          <rect x="-40" y="-3" width="80" height="6" rx="3" ry="3" fill="url(#propellerGradient)" />
+          <rect x="-3" y="-40" width="6" height="80" rx="3" ry="3" fill="url(#propellerGradient)" />
+        </g>
+      </g>
+    </g>
+    
+    <!-- Câmera e gimbal -->
+    <g transform="translate(0, 30)" class="animate-camera-scan">
+      <!-- Suporte do gimbal -->
+      <rect x="-15" y="0" width="30" height="10" rx="5" ry="5" fill="#7f8c8d" />
+      
+      <!-- Gimbal -->
+      <rect x="-20" y="10" width="40" height="20" rx="5" ry="5" fill="#34495e" />
+      
+      <!-- Câmera -->
+      <rect x="-25" y="30" width="50" height="30" rx="5" ry="5" fill="#2c3e50" />
+      
+      <!-- Lente da câmera -->
+      <circle cx="0" cy="45" r="10" fill="#1abc9c" class="animate-pulse-light" />
+      <circle cx="0" cy="45" r="5" fill="#16a085" />
+    </g>
+    
+    <!-- Antenas -->
+    <g class="animate-shake-antenna">
+      <line x1="-20" y1="-40" x2="-30" y2="-70" stroke="#7f8c8d" stroke-width="3" />
+      <circle cx="-30" cy="-75" r="5" fill="#e74c3c" class="animate-pulse-light" />
+      
+      <line x1="20" y1="-40" x2="30" y2="-70" stroke="#7f8c8d" stroke-width="3" />
+      <circle cx="30" cy="-75" r="5" fill="#e74c3c" class="animate-pulse-light" />
+    </g>
+    
+    <!-- Luzes de status -->
+    <circle cx="-70" cy="0" r="5" fill="#2ecc71" class="animate-pulse-light" />
+    <circle cx="70" cy="0" r="5" fill="#2ecc71" class="animate-pulse-light" />
+    <circle cx="0" cy="-50" r="5" fill="#f1c40f" class="animate-pulse-light" />
+    <circle cx="0" cy="50" r="5" fill="#f1c40f" class="animate-pulse-light" />
+  </g>
+</svg>

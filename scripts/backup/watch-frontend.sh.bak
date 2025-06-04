@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Script para monitorar e sincronizar automaticamente as alterações do frontend
+
+echo "Iniciando monitoramento de alterações no frontend..."
+
+# Diretórios de origem e destino
+FRONTEND_DIR="/root/evodrones/frontend"
+BACKEND_STATIC_DIR="/root/evodrones/backend/static"
+
+# Verificar se o diretório frontend existe, se não, criar
+if [ ! -d "$FRONTEND_DIR" ]; then
+    echo "Diretório frontend não existe. Criando..."
+    mkdir -p "$FRONTEND_DIR"
+    
+    # Copiar arquivos do backend/static para o frontend (inicialização)
+    echo "Copiando arquivos existentes para o diretório frontend..."
+    cp -r "$BACKEND_STATIC_DIR/"* "$FRONTEND_DIR/"
+fi
+
+# Verificar se o inotify-tools está instalado
+if ! command -v inotifywait &> /dev/null; then
+    echo "Instalando inotify-tools..."
+    apt-get update && apt-get install -y inotify-tools
+fi
+
+# Função para sincronizar arquivos
+sync_files() {
+    echo "Sincronizando alterações..."
+    rsync -av --delete "$FRONTEND_DIR/" "$BACKEND_STATIC_DIR/"
+    echo "Sincronização concluída em $(date +"%H:%M:%S")"
+}
+
+# Sincronização inicial
+sync_files
+
+# Monitorar alterações no diretório frontend
+echo "Monitorando alterações em $FRONTEND_DIR..."
+while inotifywait -r -e modify,create,delete,move "$FRONTEND_DIR"; do
+    sync_files
+done

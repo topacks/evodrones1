@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - EVO Drones</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body class="recover-page">
+    <div class="container">
+        <div class="row min-vh-100 justify-content-center align-items-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <!-- Logo -->
+                <div class="text-center mb-5" data-aos="fade-down">
+                    <a href="index.html">
+                        <img src="src/assets/logo-evo-drones.png" alt="EVO Drones" height="60" class="mb-4">
+                    </a>
+                </div>
+                
+                <!-- Card de Recuperação de Senha -->
+                <div class="card border-0 shadow-lg" data-aos="zoom-in">
+                    <div class="card-body p-4 p-md-5">
+                        <!-- Abas de Etapas -->
+                        <ul class="nav nav-pills nav-justified mb-4" id="recoveryTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="solicitar-tab" data-bs-toggle="pill" data-bs-target="#solicitar" type="button" role="tab" aria-controls="solicitar" aria-selected="true">
+                                    <span class="d-none d-md-block">1. Solicitar</span>
+                                    <span class="d-md-none">1</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="verificar-tab" data-bs-toggle="pill" data-bs-target="#verificar" type="button" role="tab" aria-controls="verificar" aria-selected="false">
+                                    <span class="d-none d-md-block">2. Verificar</span>
+                                    <span class="d-md-none">2</span>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="redefinir-tab" data-bs-toggle="pill" data-bs-target="#redefinir" type="button" role="tab" aria-controls="redefinir" aria-selected="false">
+                                    <span class="d-none d-md-block">3. Redefinir</span>
+                                    <span class="d-md-none">3</span>
+                                </button>
+                            </li>
+                        </ul>
+                        
+                        <!-- Conteúdo das Abas -->
+                        <div class="tab-content" id="recoveryTabsContent">
+                            <!-- Etapa 1: Solicitar Recuperação -->
+                            <div class="tab-pane fade show active" id="solicitar" role="tabpanel" aria-labelledby="solicitar-tab">
+                                <div class="text-center mb-4">
+                                    <div class="recovery-icon mb-3">
+                                        <i class="bi bi-envelope-paper"></i>
+                                    </div>
+                                    <h3 class="fw-bold">Recuperação de Senha</h3>
+                                    <p class="text-muted">Informe seu email para receber um código de verificação.</p>
+                                </div>
+                                
+                                <form class="needs-validation" novalidate>
+                                    <div class="mb-4">
+                                        <label for="emailRecuperar" class="form-label">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                            <input type="email" class="form-control" id="emailRecuperar" placeholder="seu@email.com" required>
+                                            <div class="invalid-feedback">
+                                                Por favor, informe um email válido.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-primary w-100 py-3 mb-3 next-step glow-effect">
+                                        Enviar Código <i class="bi bi-arrow-right ms-2"></i>
+                                    </button>
+                                    
+                                    <div class="text-center">
+                                        <a href="login.html" class="text-decoration-none">
+                                            <i class="bi bi-arrow-left me-1"></i> Voltar para o login
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Etapa 2: Verificar Código -->
+                            <div class="tab-pane fade" id="verificar" role="tabpanel" aria-labelledby="verificar-tab">
+                                <div class="text-center mb-4">
+                                    <div class="recovery-icon mb-3">
+                                        <i class="bi bi-shield-lock"></i>
+                                    </div>
+                                    <h3 class="fw-bold">Verificação</h3>
+                                    <p class="text-muted">Digite o código de verificação enviado para seu email.</p>
+                                </div>
+                                
+                                <form class="needs-validation" novalidate>
+                                    <div class="mb-4">
+                                        <label for="codigoVerificacao" class="form-label">Código de Verificação</label>
+                                        <div class="verification-code-container d-flex justify-content-between">
+                                            <input type="text" class="form-control verification-input" maxlength="1" required>
+                                            <input type="text" class="form-control verification-input" maxlength="1" required>
+                                            <input type="text" class="form-control verification-input" maxlength="1" required>
+                                            <input type="text" class="form-control verification-input" maxlength="1" required>
+                                            <input type="text" class="form-control verification-input" maxlength="1" required>
+                                            <input type="text" class="form-control verification-input" maxlength="1" required>
+                                        </div>
+                                        <div class="invalid-feedback">
+                                            Por favor, informe o código de verificação completo.
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between mb-4">
+                                        <div class="verification-timer">
+                                            <i class="bi bi-clock"></i> <span id="timer">05:00</span>
+                                        </div>
+                                        <button type="button" class="btn btn-link p-0" id="resendCode">
+                                            Reenviar código
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-outline-secondary prev-step">
+                                            <i class="bi bi-arrow-left"></i> Voltar
+                                        </button>
+                                        <button type="button" class="btn btn-primary next-step">
+                                            Verificar <i class="bi bi-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Etapa 3: Redefinir Senha -->
+                            <div class="tab-pane fade" id="redefinir" role="tabpanel" aria-labelledby="redefinir-tab">
+                                <div class="text-center mb-4">
+                                    <div class="recovery-icon mb-3">
+                                        <i class="bi bi-key"></i>
+                                    </div>
+                                    <h3 class="fw-bold">Nova Senha</h3>
+                                    <p class="text-muted">Crie uma nova senha para sua conta.</p>
+                                </div>
+                                
+                                <form class="needs-validation" novalidate>
+                                    <div class="mb-4">
+                                        <label for="novaSenha" class="form-label">Nova Senha</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                            <input type="password" class="form-control" id="novaSenha" placeholder="Crie uma senha segura" required>
+                                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <div class="invalid-feedback">
+                                                Por favor, crie uma senha.
+                                            </div>
+                                        </div>
+                                        <div class="form-text">A senha deve ter pelo menos 8 caracteres, incluindo letras e números.</div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="confirmarNovaSenha" class="form-label">Confirmar Nova Senha</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                            <input type="password" class="form-control" id="confirmarNovaSenha" placeholder="Confirme sua senha" required>
+                                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                            <div class="invalid-feedback">
+                                                As senhas não coincidem.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="password-strength mb-4">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Força da senha</span>
+                                            <span id="passwordStrengthText">Fraca</span>
+                                        </div>
+                                        <div class="progress" style="height: 8px;">
+                                            <div id="passwordStrengthBar" class="progress-bar bg-danger" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-outline-secondary prev-step">
+                                            <i class="bi bi-arrow-left"></i> Voltar
+                                        </button>
+                                        <button type="submit" class="btn btn-primary glow-effect">
+                                            Salvar Nova Senha
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <p>Lembrou sua senha? <a href="login.html" class="text-primary">Faça login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particles Animation -->
+    <div class="recover-particles"></div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS - Animate On Scroll -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <!-- Custom JS -->
+    <script src="src/js/main.js"></script>
+    
+    <script>
+        // Inicializa AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(button => {
+            button.addEventListener('click', function() {
+                const input = this.previousElementSibling;
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.replace('bi-eye', 'bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.replace('bi-eye-slash', 'bi-eye');
+                }
+            });
+        });
+        
+        // Form validation
+        (function () {
+            'use strict'
+            
+            const forms = document.querySelectorAll('.needs-validation');
+            
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+        
+        // Navegação entre etapas
+        document.querySelectorAll('.next-step').forEach(button => {
+            button.addEventListener('click', function() {
+                // Encontra a aba atual e a próxima
+                const currentTab = document.querySelector('.tab-pane.active');
+                const currentTabId = currentTab.getAttribute('id');
+                let nextTabId;
+                
+                if (currentTabId === 'solicitar') {
+                    nextTabId = 'verificar';
+                    startTimer();
+                } else if (currentTabId === 'verificar') {
+                    nextTabId = 'redefinir';
+                }
+                
+                // Ativa a próxima aba
+                if (nextTabId) {
+                    const nextTab = new bootstrap.Tab(document.querySelector(`#${nextTabId}-tab`));
+                    nextTab.show();
+                }
+            });
+        });
+        
+        document.querySelectorAll('.prev-step').forEach(button => {
+            button.addEventListener('click', function() {
+                // Encontra a aba atual e a anterior
+                const currentTab = document.querySelector('.tab-pane.active');
+                const currentTabId = currentTab.getAttribute('id');
+                let prevTabId;
+                
+                if (currentTabId === 'verificar') {
+                    prevTabId = 'solicitar';
+                } else if (currentTabId === 'redefinir') {
+                    prevTabId = 'verificar';
+                }
+                
+                // Ativa a aba anterior
+                if (prevTabId) {
+                    const prevTab = new bootstrap.Tab(document.querySelector(`#${prevTabId}-tab`));
+                    prevTab.show();
+                }
+            });
+        });
+        
+        // Verificação de código
+        document.querySelectorAll('.verification-input').forEach((input, index, inputs) => {
+            // Auto focus no próximo input
+            input.addEventListener('input', function() {
+                if (this.value.length === this.maxLength) {
+                    const nextInput = inputs[index + 1];
+                    if (nextInput) {
+                        nextInput.focus();
+                    }
+                }
+            });
+            
+            // Permite backspace para voltar ao input anterior
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !this.value) {
+                    const prevInput = inputs[index - 1];
+                    if (prevInput) {
+                        prevInput.focus();
+                    }
+                }
+            });
+        });
+        
+        // Timer para reenvio de código
+        function startTimer() {
+            let duration = 5 * 60; // 5 minutos
+            const timerDisplay = document.getElementById('timer');
+            const resendButton = document.getElementById('resendCode');
+            
+            resendButton.disabled = true;
+            
+            const timer = setInterval(function() {
+                const minutes = Math.floor(duration / 60);
+                let seconds = duration % 60;
+                
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                
+                timerDisplay.textContent = minutes + ":" + seconds;
+                
+                if (--duration < 0) {
+                    clearInterval(timer);
+                    timerDisplay.textContent = "00:00";
+                    resendButton.disabled = false;
+                }
+            }, 1000);
+        }
+        
+        // Reenviar código
+        document.getElementById('resendCode').addEventListener('click', function() {
+            if (!this.disabled) {
+                // Aqui seria a lógica para reenviar o código
+                alert('Um novo código foi enviado para seu email.');
+                startTimer();
+            }
+        });
+        
+        // Verificação de força da senha
+        document.getElementById('novaSenha').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            // Critérios de força
+            const hasLowerCase = /[a-z]/.test(password);
+            const hasUpperCase = /[A-Z]/.test(password);
+            const hasNumbers = /\d/.test(password);
+            const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            const isLongEnough = password.length >= 8;
+            
+            // Calcula a força
+            let strength = 0;
+            if (hasLowerCase) strength += 1;
+            if (hasUpperCase) strength += 1;
+            if (hasNumbers) strength += 1;
+            if (hasSpecialChars) strength += 1;
+            if (isLongEnough) strength += 1;
+            
+            // Atualiza a barra de progresso
+            let percentage = (strength / 5) * 100;
+            strengthBar.style.width = percentage + '%';
+            
+            // Atualiza o texto e a cor
+            if (percentage <= 20) {
+                strengthBar.className = 'progress-bar bg-danger';
+                strengthText.textContent = 'Muito fraca';
+            } else if (percentage <= 40) {
+                strengthBar.className = 'progress-bar bg-danger';
+                strengthText.textContent = 'Fraca';
+            } else if (percentage <= 60) {
+                strengthBar.className = 'progress-bar bg-warning';
+                strengthText.textContent = 'Média';
+            } else if (percentage <= 80) {
+                strengthBar.className = 'progress-bar bg-info';
+                strengthText.textContent = 'Forte';
+            } else {
+                strengthBar.className = 'progress-bar bg-success';
+                strengthText.textContent = 'Muito forte';
+            }
+        });
+        
+        // Criar partículas para o fundo
+        document.addEventListener('DOMContentLoaded', function() {
+            const recoverParticles = document.querySelector('.recover-particles');
+            if (recoverParticles) {
+                for (let i = 0; i < 50; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('recover-particle');
+                    
+                    const size = Math.random() * 3 + 1;
+                    const posX = Math.random() * 100;
+                    const posY = Math.random() * 100;
+                    const delay = Math.random() * 5;
+                    const duration = Math.random() * 20 + 10;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.top = `${posY}%`;
+                    particle.style.animationDelay = `${delay}s`;
+                    particle.style.animationDuration = `${duration}s`;
+                    
+                    recoverParticles.appendChild(particle);
+                }
+            }
+        });
+    </script>
+    
+    <style>
+        /* Estilos específicos para a página de recuperação de senha */
+        .recover-page {
+            background-color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Ícone de recuperação */
+        .recovery-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(48, 180, 232, 0.1);
+            border-radius: 50%;
+            color: var(--primary);
+        }
+        
+        .recovery-icon i {
+            font-size: 2.5rem;
+        }
+        
+        /* Estilização das abas */
+        #recoveryTabs .nav-link {
+            color: var(--dark);
+            border-radius: 8px;
+            padding: 10px;
+            transition: var(--transition);
+        }
+        
+        #recoveryTabs .nav-link.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: var(--glow);
+        }
+        
+        /* Input groups */
+        .input-group-text {
+            background-color: transparent;
+            border-right: none;
+        }
+        
+        .input-group .form-control {
+            border-left: none;
+        }
+        
+        .input-group .form-control:focus {
+            box-shadow: none;
+        }
+        
+        .input-group:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(48, 180, 232, 0.25);
+            border-radius: 0.375rem;
+        }
+        
+        .input-group:focus-within .input-group-text,
+        .input-group:focus-within .form-control {
+            border-color: var(--primary);
+        }
+        
+        /* Campos de verificação */
+        .verification-code-container {
+            gap: 10px;
+        }
+        
+        .verification-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+        
+        .verification-timer {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Partículas de fundo */
+        .recover-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .recover-particle {
+            position: absolute;
+            background-color: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle linear infinite;
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html> 

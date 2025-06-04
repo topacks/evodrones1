@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #00ffff;
+    --primary-dark: #00bfff;
+    --secondary: #8000ff;
+    --secondary-dark: #6000bf;
+    --dark: #0a0a0a;
+    --light: #ffffff;
+    --gray: #cccccc;
+    --gray-dark: #707070;
+    --gradient-tech: linear-gradient(45deg, #00ffff, #0080ff);
+    --gradient-login: linear-gradient(45deg, #8000ff, #0080ff);
+    --gradient-register: linear-gradient(45deg, #00ffff, #00bfff);
+    --transition: all 0.3s ease;
+    --glow: 0 0 20px rgba(0, 255, 255, 0.5);
+    --glow-purple: 0 0 20px rgba(128, 0, 255, 0.5);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: #0a0a0a;
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.orbitron {
+    font-family: 'Orbitron', monospace;
+}
+
+/* Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Neon Effects */
+.neon-cyan {
+    color: #00ffff;
+    text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+}
+
+.neon-blue {
+    color: #0080ff;
+    text-shadow: 0 0 5px #0080ff, 0 0 10px #0080ff;
+}
+
+.neon-purple {
+    color: #8000ff;
+    text-shadow: 0 0 5px #8000ff, 0 0 10px #8000ff;
+}
+
+.neon-border {
+    border: 2px solid #00ffff;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+/* Particles */
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: floatParticle 20s linear infinite;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) translateX(10px) rotate(90deg);
+    }
+    50% {
+        transform: translateY(0) translateX(20px) rotate(180deg);
+    }
+    75% {
+        transform: translateY(20px) translateX(10px) rotate(270deg);
+    }
+    100% {
+        transform: translateY(0) translateX(0) rotate(360deg);
+    }
+}
+
+/* Formulário de Registro */
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+.register-card {
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid var(--primary);
+    border-radius: 15px;
+    box-shadow: var(--glow);
+    width: 100%;
+    max-width: 1200px;
+    overflow: hidden;
+}
+
+/* Etapas do Registro */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.step-indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gray-dark);
+    transform: translateY(-50%);
+    z-index: -1;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--dark);
+    border: 2px solid var(--gray-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    transition: var(--transition);
+}
+
+.step-title {
+    font-size: 0.9rem;
+    color: var(--gray);
+    transition: var(--transition);
+}
+
+.step-item.active .step-number {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--dark);
+    box-shadow: var(--glow);
+}
+
+.step-item.active .step-title {
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.step-item.completed .step-number {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--light);
+}
+
+.step-item.completed .step-title {
+    color: var(--primary-dark);
+}
+
+/* Conteúdo das Etapas */
+.step-content {
+    padding: 1.5rem;
+}
+
+/* Campos de Formulário */
+input, select, textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--light);
+    transition: var(--transition);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2);
+}
+
+/* Botões */
+.tech-btn {
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+    color: var(--dark);
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tech-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--glow);
+}
+
+.tech-btn.register-btn {
+    background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+}
+
+.tech-btn.login-btn {
+    background: linear-gradient(45deg, var(--secondary-dark), var(--secondary));
+}
+
+/* Indicador de Força da Senha */
+.password-strength {
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    transition: var(--transition);
+}
+
+.strength-weak {
+    background: #ff4d4d;
+    width: 30%;
+}
+
+.strength-medium {
+    background: #ffaa00;
+    width: 60%;
+}
+
+.strength-strong {
+    background: #00cc66;
+    width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .register-card {
+        margin: 1rem;
+    }
+    
+    .step-indicator {
+        flex-wrap: wrap;
+    }
+    
+    .step-item {
+        margin-bottom: 1rem;
+    }
+}

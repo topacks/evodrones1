@@ -1,0 +1,787 @@
+/**
+ * EVO DRONES - Visualização 3D
+ * 
+ * Estilos específicos para a visualização 3D dos drones
+ */
+
+/* Variáveis de cores */
+:root {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --primary-light: #5dade2;
+    --secondary-color: #2ecc71;
+    --secondary-dark: #27ae60;
+    --secondary-light: #58d68d;
+    --warning-color: #f39c12;
+    --danger-color: #e74c3c;
+    --dark-bg: #0c1824;
+    --dark-bg-light: #1a2a3a;
+    --dark-bg-lighter: #2c3e50;
+    --text-light: #ecf0f1;
+    --text-muted: #95a5a6;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --glass-bg: rgba(12, 24, 36, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos gerais */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-light);
+    background-color: var(--dark-bg);
+}
+
+/* Container da cena */
+.scene-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--dark-bg-light) 0%, var(--dark-bg) 100%);
+}
+
+/* Canvas */
+#scene-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Overlay da interface */
+.scene-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Cabeçalho */
+.scene-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    pointer-events: auto;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.scene-title {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.scene-title i {
+    color: var(--primary-color);
+}
+
+.scene-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Sidebar */
+.scene-sidebar {
+    position: absolute;
+    top: 5rem;
+    right: 1rem;
+    width: 320px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: var(--text-light);
+    z-index: 100;
+    pointer-events: auto;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    border: 1px solid var(--glass-border);
+}
+
+.scene-sidebar.collapsed {
+    transform: translateX(calc(100% + 1rem));
+    opacity: 0;
+}
+
+.scene-sidebar h3 {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+.scene-sidebar h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-light);
+    opacity: 0.8;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: 1rem;
+    left: -3rem;
+    width: 3rem;
+    height: 3rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px 0 0 8px;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(52, 152, 219, 0.8);
+}
+
+/* Controles do drone */
+.drone-controls {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 100px;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    z-index: 100;
+    pointer-events: auto;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+.control-btn.active {
+    background: rgba(52, 152, 219, 0.5);
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.5);
+}
+
+/* Informações da cena */
+.scene-info {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1rem;
+    color: var(--text-light);
+    z-index: 100;
+    pointer-events: auto;
+    max-width: 300px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.scene-info h4 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.scene-info p {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+}
+
+.scene-info .coordinates {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Modos de câmera */
+.camera-modes {
+    position: absolute;
+    top: 5rem;
+    left: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 1rem;
+    color: var(--text-light);
+    z-index: 100;
+    pointer-events: auto;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.camera-modes h4 {
+    font-size: 0.875rem;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.camera-mode-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.camera-mode-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.camera-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.camera-mode-btn.active {
+    background: rgba(52, 152, 219, 0.5);
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
+}
+
+/* Elementos do HUD */
+.hud-element {
+    position: absolute;
+    pointer-events: none;
+}
+
+/* Bússola */
+.compass {
+    top: 6rem;
+    right: 2rem;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.compass-inner {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.compass-needle {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(to bottom, var(--danger-color) 0%, var(--danger-color) 50%, var(--text-light) 50%, var(--text-light) 100%);
+    transform-origin: bottom center;
+    transform: translateX(-50%);
+    transition: transform 0.5s ease;
+}
+
+.compass-labels {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.compass-label {
+    position: absolute;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.compass-north {
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--danger-color);
+}
+
+.compass-east {
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+}
+
+.compass-south {
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.compass-west {
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+}
+
+/* Indicador de altitude */
+.altitude-indicator {
+    top: 6rem;
+    left: 2rem;
+    width: 50px;
+    height: 200px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 25px;
+    padding: 10px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.altitude-bar-container {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.altitude-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, var(--primary-color), var(--secondary-color));
+    transition: height 0.5s ease;
+}
+
+.altitude-value {
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.altitude-label {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* Indicador de velocidade */
+.speed-indicator {
+    bottom: 2rem;
+    right: 2rem;
+    width: 120px;
+    height: 120px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.speed-inner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.speed-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.speed-unit {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* Indicador de bateria */
+.battery-indicator {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 100px;
+    padding: 0.5rem 1rem;
+    color: var(--text-light);
+    z-index: 100;
+    pointer-events: auto;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border: 1px solid var(--glass-border);
+}
+
+.battery-icon {
+    font-size: 1.25rem;
+    color: var(--secondary-color);
+}
+
+.battery-value {
+    font-weight: 600;
+}
+
+.battery-time {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+/* Botões */
+.btn-realtime {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    pointer-events: auto;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--border-color);
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Animações */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .scene-sidebar {
+        width: 280px;
+    }
+    
+    .scene-info {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .scene-header {
+        padding: 1rem;
+    }
+    
+    .scene-title {
+        font-size: 1.25rem;
+    }
+    
+    .scene-sidebar {
+        width: 240px;
+    }
+    
+    .drone-controls {
+        gap: 1rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .control-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.25rem;
+    }
+    
+    .scene-info {
+        left: 1rem;
+        bottom: 1rem;
+        max-width: 200px;
+    }
+    
+    .camera-modes {
+        top: 4.5rem;
+        left: 1rem;
+    }
+    
+    .compass {
+        width: 80px;
+        height: 80px;
+        top: 5rem;
+        right: 1rem;
+    }
+    
+    .compass-inner {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .altitude-indicator {
+        height: 150px;
+        width: 40px;
+        top: 5rem;
+        left: 1rem;
+    }
+    
+    .speed-indicator {
+        width: 100px;
+        height: 100px;
+        bottom: 1rem;
+        right: 1rem;
+    }
+    
+    .speed-inner {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 576px) {
+    .scene-header {
+        padding: 0.75rem;
+    }
+    
+    .scene-title {
+        font-size: 1rem;
+    }
+    
+    .scene-actions {
+        gap: 0.5rem;
+    }
+    
+    .btn-realtime {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .scene-sidebar {
+        width: 220px;
+        padding: 1rem;
+    }
+    
+    .drone-controls {
+        gap: 0.5rem;
+        padding: 0.4rem 0.75rem;
+    }
+    
+    .control-btn {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1rem;
+    }
+    
+    .camera-modes {
+        padding: 0.75rem;
+    }
+    
+    .camera-mode-btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
+    }
+    
+    .compass {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .compass-inner {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .altitude-indicator {
+        height: 120px;
+        width: 30px;
+    }
+    
+    .speed-indicator {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .speed-inner {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .speed-value {
+        font-size: 1.25rem;
+    }
+    
+    .battery-indicator {
+        padding: 0.4rem 0.75rem;
+    }
+}
+
+/* Efeitos de carregamento */
+.loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--dark-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loading.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+.loading-text {
+    font-size: 1.25rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+}
+
+.loading-progress {
+    width: 200px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.loading-progress-bar {
+    height: 100%;
+    background: var(--primary-color);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

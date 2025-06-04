@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVO DRONES - Esportivo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@300;400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background: #0d1117;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Dynamic Background */
+        .bg-dynamic {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #0d1117, #1a1f2e, #2d3748);
+            background-size: 400% 400%;
+            animation: dynamicGradient 8s ease infinite;
+        }
+        
+        @keyframes dynamicGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Speed Lines */
+        .speed-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .speed-line {
+            position: absolute;
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #ff6b35, transparent);
+            animation: speedMove 2s linear infinite;
+        }
+        
+        @keyframes speedMove {
+            0% {
+                transform: translateX(-100px) translateY(-100px);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px)) translateY(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* Navigation */
+        nav {
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ff6b35;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+        
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            font-weight: 400;
+            color: #ff6b35;
+            text-shadow: 0 0 20px #ff6b35;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 10px 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b35;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #ff6b35;
+            text-shadow: 0 0 10px #ff6b35;
+        }
+        
+        .action-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 900;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+            text-transform: uppercase;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 25px rgba(255, 107, 53, 0.5);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 96px;
+            font-weight: 400;
+            line-height: 0.9;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 3px;
+        }
+        
+        .hero h1 .highlight {
+            color: #ff6b35;
+            text-shadow: 0 0 30px #ff6b35;
+        }
+        
+        .hero-subtitle {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff6b35;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            max-width: 600px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: #000;
+            padding: 18px 35px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 900;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+            text-transform: uppercase;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #ff6b35;
+            padding: 18px 35px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 900;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 1px;
+            border: 2px solid #ff6b35;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5);
+        }
+        
+        .btn-secondary:hover {
+            background: #ff6b35;
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+        }
+        
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,107,53,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-item {
+            padding: 30px 20px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #ff6b35;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 107, 53, 0.2);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+        
+        .stat-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 64px;
+            font-weight: 400;
+            color: #ff6b35;
+            text-shadow: 0 0 20px #ff6b35;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Performance Section */
+        .performance {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 64px;
+            font-weight: 400;
+            color: #ffffff;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .section-title h2 .highlight {
+            color: #ff6b35;
+            text-shadow: 0 0 20px #ff6b35;
+        }
+        
+        .section-title p {
+            font-size: 20px;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+        
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .performance-card {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1));
+            border: 1px solid #ff6b35;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .performance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .performance-card:hover::before {
+            left: 100%;
+        }
+        
+        .performance-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3);
+        }
+        
+        .performance-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 40px;
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+        }
+        
+        .performance-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            font-weight: 400;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        
+        .performance-card p {
+            color: #cccccc;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        
+        /* Competition Section */
+        .competition {
+            padding: 100px 0;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .competition-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .competition-text h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 48px;
+            font-weight: 400;
+            color: #ff6b35;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+        
+        .competition-text p {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+        
+        .competition-features {
+            list-style: none;
+            margin-top: 30px;
+        }
+        
+        .competition-features li {
+            padding: 15px 0;
+            font-size: 16px;
+            color: #ffffff;
+            position: relative;
+            padding-left: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .competition-features li::before {
+            content: '⚡';
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-size: 20px;
+        }
+        
+        .competition-image {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .competition-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="racing" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="rgba(0,0,0,0.1)"/><rect x="10" y="10" width="10" height="10" fill="rgba(0,0,0,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23racing)"/></svg>');
+        }
+        
+        /* Services Racing */
+        .services-racing {
+            padding: 100px 0;
+        }
+        
+        .racing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .racing-item {
+            background: rgba(13, 17, 23, 0.8);
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 30px 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .racing-item:hover {
+            border-color: #ff6b35;
+            background: rgba(255, 107, 53, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+        }
+        
+        .racing-item h4 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: #ff6b35;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .racing-item p {
+            color: #cccccc;
+            font-size: 14px;
+            font-weight: 300;
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            border-top: 2px solid #ff6b35;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: #cccccc;
+            text-decoration: none;
+            line-height: 1.8;
+            transition: color 0.3s ease;
+            font-weight: 300;
+        }
+        
+        .footer-section a:hover {
+            color: #ff6b35;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 30px;
+            text-align: center;
+            color: #888;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 64px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .section-title h2 {
+                font-size: 48px;
+            }
+            
+            .competition-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-dynamic"></div>
+    <div class="speed-lines" id="speedLines"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">EVO DRONES</div>
+                <ul class="nav-links">
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="#performance">PERFORMANCE</a></li>
+                    <li><a href="#competition">RACING</a></li>
+                    <li><a href="#services">SERVICES</a></li>
+                </ul>
+                <a href="#" class="action-btn">START RACING</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>VELOCIDADE <span class="highlight">EXTREMA</span></h1>
+                <div class="hero-subtitle">DRONES DE ALTA PERFORMANCE</div>
+                <p>Experimente a adrenalina pura com nossos drones de corrida de última geração. Velocidade, precisão e tecnologia avançada para competidores que não aceitam limites.</p>
+                <div class="hero-buttons">
+                    <a href="#performance" class="btn-primary">VER PERFORMANCE</a>
+                    <a href="#competition" class="btn-secondary">ENTRAR NA CORRIDA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">300</div>
+                    <div class="stat-label">KM/H MAX</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">0.1</div>
+                    <div class="stat-label">SEC RESPONSE</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50</div>
+                    <div class="stat-label">MIN FLIGHT</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100</div>
+                    <div class="stat-label">WINS RECORD</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Performance Section -->
+    <section class="performance" id="performance">
+        <div class="container">
+            <div class="section-title">
+                <h2>MÁXIMA <span class="highlight">PERFORMANCE</span></h2>
+                <p>Tecnologia de ponta desenvolvida para superar todos os limites de velocidade e precisão.</p>
+            </div>
+            <div class="performance-grid">
+                <div class="performance-card">
+                    <div class="performance-icon">🚀</div>
+                    <h3>TURBO ENGINE</h3>
+                    <p>Motores de alta potência com aceleração instantânea e controle de velocidade preciso.</p>
+                </div>
+                <div class="performance-card">
+                    <div class="performance-icon">⚡</div>
+                    <h3>LIGHTNING RESPONSE</h3>
+                    <p>Sistema de resposta ultrarrápido para manobras extremas e mudanças de direção.</p>
+                </div>
+                <div class="performance-card">
+                    <div class="performance-icon">🎯</div>
+                    <h3>PRECISION CONTROL</h3>
+                    <p>Controle milimétrico para navegação em alta velocidade e obstáculos complexos.</p>
+                </div>
+                <div class="performance-card">
+                    <div class="performance-icon">🛡️</div>
+                    <h3>CRASH PROTECTION</h3>
+                    <p>Sistema avançado de proteção contra impactos e recuperação automática.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Competition Section -->
+    <section class="competition" id="competition">
+        <div class="container">
+            <div class="section-title">
+                <h2>RACING <span class="highlight">CHAMPIONSHIP</span></h2>
+                <p>Entre para o mundo das competições profissionais de drones e prove sua habilidade.</p>
+            </div>
+            <div class="competition-content">
+                <div class="competition-text">
+                    <h3>DOMINE AS PISTAS</h3>
+                    <p>Nossos drones são projetados para competições de alto nível, oferecendo a velocidade e agilidade necessárias para vencer qualquer desafio.</p>
+                    <p>Com tecnologia de ponta e design aerodinâmico, você terá a vantagem competitiva que precisa para se destacar nas pistas mais desafiadoras.</p>
+                    <ul class="competition-features">
+                        <li>VELOCIDADE MÁXIMA 300 KM/H</li>
+                        <li>ACELERAÇÃO 0-100 EM 2 SEGUNDOS</li>
+                        <li>AUTONOMIA DE 50 MINUTOS</li>
+                        <li>RESISTÊNCIA A IMPACTOS</li>
+                        <li>CONTROLE PROFISSIONAL</li>
+                    </ul>
+                </div>
+                <div class="competition-image">
+                    <div>CHAMPION DRONE</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Racing -->
+    <section class="services-racing" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>RACING <span class="highlight">SERVICES</span></h2>
+                <p>Serviços especializados para pilotos profissionais e entusiastas de corridas de drones.</p>
+            </div>
+            <div class="racing-grid">
+                <div class="racing-item">
+                    <h4>CUSTOM RACING SETUP</h4>
+                    <p>Configuração personalizada para máxima performance</p>
+                </div>
+                <div class="racing-item">
+                    <h4>PROFESSIONAL TRAINING</h4>
+                    <p>Treinamento intensivo com pilotos profissionais</p>
+                </div>
+                <div class="racing-item">
+                    <h4>COMPETITION SUPPORT</h4>
+                    <p>Suporte técnico durante competições</p>
+                </div>
+                <div class="racing-item">
+                    <h4>PERFORMANCE TUNING</h4>
+                    <p>Otimização de performance para cada pista</p>
+                </div>
+                <div class="racing-item">
+                    <h4>CRASH REPAIR</h4>
+                    <p>Reparo rápido e especializado</p>
+                </div>
+                <div class="racing-item">
+                    <h4>RACING ANALYTICS</h4>
+                    <p>Análise detalhada de performance e telemetria</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EVO DRONES</h3>
+                    <p>Velocidade extrema e performance incomparável para competidores que buscam a vitória.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>RACING</h3>
+                    <p><a href="#">Competições</a></p>
+                    <p><a href="#">Treinamento</a></p>
+                    <p><a href="#">Rankings</a></p>
+                    <p><a href="#">Eventos</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>PERFORMANCE</h3>
+                    <p><a href="#">Especificações</a></p>
+                    <p><a href="#">Customização</a></p>
+                    <p><a href="#">Upgrades</a></p>
+                    <p><a href="#">Manutenção</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>CONTATO</h3>
+                    <p>racing@evodrones.com</p>
+                    <p>+55 (11) 9999-RACE</p>
+                    <p>São Paulo Racing Center</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 EVO DRONES - Design Esportivo e Dinâmico para Competidores</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Create speed lines
+        function createSpeedLines() {
+            const speedLinesContainer = document.getElementById('speedLines');
+            const lineCount = 20;
+            
+            for (let i = 0; i < lineCount; i++) {
+                const line = document.createElement('div');
+                line.className = 'speed-line';
+                line.style.top = Math.random() * 100 + '%';
+                line.style.left = Math.random() * 100 + '%';
+                line.style.animationDelay = Math.random() * 2 + 's';
+                line.style.animationDuration = (Math.random() * 1 + 1.5) + 's';
+                speedLinesContainer.appendChild(line);
+            }
+        }
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Stats counter animation
+        const observerOptions = {
+            threshold: 0.7
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.stat-number');
+                    counters.forEach(counter => {
+                        const target = parseFloat(counter.textContent);
+                        let current = 0;
+                        const increment = target / 60;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                counter.textContent = target;
+                                clearInterval(timer);
+                            } else {
+                                counter.textContent = Math.floor(current * 10) / 10;
+                            }
+                        }, 25);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+        
+        // Performance cards hover effect
+        document.querySelectorAll('.performance-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02) rotateX(5deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1) rotateX(0)';
+            });
+        });
+        
+        // Racing items pulse effect
+        document.querySelectorAll('.racing-item').forEach((item, index) => {
+            setTimeout(() => {
+                item.style.animation = 'pulse 2s ease-in-out infinite';
+            }, index * 200);
+        });
+        
+        // Add pulse animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialize
+        createSpeedLines();
+        
+        // Dynamic background interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX / window.innerWidth;
+            mouseY = e.clientY / window.innerHeight;
+            
+            const bgDynamic = document.querySelector('.bg-dynamic');
+            bgDynamic.style.backgroundPosition = `${mouseX * 100}% ${mouseY * 100}%`;
+        });
+    </script>
+</body>
+</html>

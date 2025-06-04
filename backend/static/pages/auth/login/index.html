@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - EVO DRONES</title>
+    <meta name="description" content="Acesse sua conta na plataforma EVO DRONES para gerenciar seus drones e serviços de manutenção.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../../../assets/images/favicon.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+    
+    <style>
+        .login-container {
+            min-height: 100vh;
+            background: var(--evo-gradient-tech);
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(48, 180, 232, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-banner {
+            background: var(--evo-gradient-primary);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .tab-custom .nav-link {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: var(--evo-transition);
+            color: var(--evo-gray);
+        }
+        
+        .tab-custom .nav-link.active {
+            background: var(--evo-gradient-primary);
+            color: white;
+            box-shadow: var(--evo-glow);
+        }
+        
+        .form-floating .form-control {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: var(--evo-transition);
+        }
+        
+        .form-floating .form-control:focus {
+            border-color: var(--evo-primary);
+            box-shadow: 0 0 0 0.25rem rgba(48, 180, 232, 0.15);
+        }
+        
+        .input-group-text {
+            border-radius: 12px 0 0 12px;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            background: transparent;
+        }
+        
+        .input-group .form-control {
+            border-radius: 0 12px 12px 0;
+            border-left: none;
+        }
+        
+        .input-group:focus-within .input-group-text,
+        .input-group:focus-within .form-control {
+            border-color: var(--evo-primary);
+        }
+        
+        .drone-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .feature-item {
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: var(--evo-transition);
+        }
+        
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 col-xl-8">
+                    <div class="login-card p-0 overflow-hidden" data-aos="zoom-in" data-aos-duration="800">
+                        <div class="row g-0">
+                            <!-- Banner Lateral -->
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <div class="login-banner h-100 p-5 d-flex flex-column justify-content-between text-white position-relative">
+                                    <!-- Logo -->
+                                    <div class="z-3 position-relative">
+                                        <a href="../../public/home/" class="text-decoration-none">
+                                            <div class="d-flex align-items-center mb-4">
+                                                <span class="fw-bold fs-2 text-white">EVO</span>
+                                                <span class="fw-light fs-2 text-white ms-2">DRONES</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    
+                                    <!-- Conteúdo Central -->
+                                    <div class="z-3 position-relative text-center">
+                                        <h2 class="display-6 fw-bold mb-4">Bem-vindo de volta!</h2>
+                                        <p class="lead mb-4 opacity-75">
+                                            Acesse sua conta para gerenciar seus drones e acompanhar os serviços de manutenção.
+                                        </p>
+                                        
+                                        <!-- Drone Animado -->
+                                        <div class="drone-float mb-4">
+                                            <svg width="200" height="150" viewBox="0 0 200 150" class="mx-auto">
+                                                <!-- Corpo do Drone -->
+                                                <rect x="85" y="65" width="30" height="20" rx="4" fill="white" opacity="0.9"/>
+                                                
+                                                <!-- Braços -->
+                                                <rect x="50" y="72" width="35" height="6" rx="3" fill="white" opacity="0.7"/>
+                                                <rect x="115" y="72" width="35" height="6" rx="3" fill="white" opacity="0.7"/>
+                                                
+                                                <!-- Motores -->
+                                                <circle cx="50" cy="75" r="8" fill="white" opacity="0.8"/>
+                                                <circle cx="150" cy="75" r="8" fill="white" opacity="0.8"/>
+                                                
+                                                <!-- Hélices -->
+                                                <g class="animate-spin-slow">
+                                                    <rect x="35" y="73" width="30" height="4" rx="2" fill="white" opacity="0.6"/>
+                                                    <rect x="48" y="60" width="4" height="30" rx="2" fill="white" opacity="0.6"/>
+                                                </g>
+                                                
+                                                <g class="animate-spin-slow" style="animation-direction: reverse;">
+                                                    <rect x="135" y="73" width="30" height="4" rx="2" fill="white" opacity="0.6"/>
+                                                    <rect x="148" y="60" width="4" height="30" rx="2" fill="white" opacity="0.6"/>
+                                                </g>
+                                                
+                                                <!-- LEDs -->
+                                                <circle cx="90" cy="70" r="2" fill="#FF7A00" class="animate-pulse-glow"/>
+                                                <circle cx="110" cy="70" r="2" fill="white" class="animate-pulse-glow"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Features -->
+                                    <div class="z-3 position-relative">
+                                        <div class="row g-3">
+                                            <div class="col-4">
+                                                <div class="feature-item text-center">
+                                                    <i class="bi bi-shield-check fs-4 mb-2 d-block"></i>
+                                                    <small>Seguro</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="feature-item text-center">
+                                                    <i class="bi bi-lightning-charge fs-4 mb-2 d-block"></i>
+                                                    <small>Rápido</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="feature-item text-center">
+                                                    <i class="bi bi-headset fs-4 mb-2 d-block"></i>
+                                                    <small>Suporte</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Partículas -->
+                                    <div class="particles-container"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Formulário de Login -->
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <!-- Logo Mobile -->
+                                    <div class="text-center d-lg-none mb-4">
+                                        <a href="../../public/home/" class="text-decoration-none">
+                                            <span class="fw-bold fs-3 text-evo-primary">EVO</span>
+                                            <span class="fw-light fs-3 text-evo-dark">DRONES</span>
+                                        </a>
+                                    </div>
+                                    
+                                    <h1 class="h3 fw-bold text-center mb-4 text-evo-dark">Acesse sua conta</h1>
+                                    
+                                    <!-- Abas de Login -->
+                                    <ul class="nav nav-pills nav-fill mb-4 tab-custom" id="loginTabs" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active w-100" id="cliente-tab" data-bs-toggle="tab" data-bs-target="#cliente" type="button" role="tab">
+                                                <i class="bi bi-person me-2"></i>Cliente
+                                            </button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link w-100" id="tecnico-tab" data-bs-toggle="tab" data-bs-target="#tecnico" type="button" role="tab">
+                                                <i class="bi bi-tools me-2"></i>Técnico
+                                            </button>
+                                        </li>
+                                    </ul>
+                                    
+                                    <!-- Conteúdo das Abas -->
+                                    <div class="tab-content" id="loginTabsContent">
+                                        <!-- Login Cliente -->
+                                        <div class="tab-pane fade show active" id="cliente" role="tabpanel">
+                                            <form id="clienteForm" class="needs-validation" novalidate>
+                                                <div class="mb-4">
+                                                    <div class="form-floating">
+                                                        <input type="email" class="form-control" id="clienteEmail" placeholder="seu@email.com" required>
+                                                        <label for="clienteEmail"><i class="bi bi-envelope me-2"></i>Email</label>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, informe um email válido.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="mb-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">
+                                                            <i class="bi bi-lock"></i>
+                                                        </span>
+                                                        <div class="form-floating flex-grow-1">
+                                                            <input type="password" class="form-control" id="clienteSenha" placeholder="Senha" required>
+                                                            <label for="clienteSenha">Senha</label>
+                                                        </div>
+                                                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, informe sua senha.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="clienteLembrar">
+                                                        <label class="form-check-label" for="clienteLembrar">
+                                                            Lembrar-me
+                                                        </label>
+                                                    </div>
+                                                    <a href="../recover/" class="text-evo-primary text-decoration-none">Esqueceu a senha?</a>
+                                                </div>
+                                                
+                                                <button type="submit" class="btn btn-evo-primary w-100 py-3 mb-4 glow-effect">
+                                                    <i class="bi bi-box-arrow-in-right me-2"></i>
+                                                    Entrar
+                                                </button>
+                                                
+                                                <div class="text-center">
+                                                    <p class="mb-0">Não tem uma conta? 
+                                                        <a href="../register/" class="text-evo-primary text-decoration-none fw-semibold">Cadastre-se</a>
+                                                    </p>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        
+                                        <!-- Login Técnico -->
+                                        <div class="tab-pane fade" id="tecnico" role="tabpanel">
+                                            <form id="tecnicoForm" class="needs-validation" novalidate>
+                                                <div class="mb-4">
+                                                    <div class="form-floating">
+                                                        <input type="email" class="form-control" id="tecnicoEmail" placeholder="tecnico@evodrones.com.br" required>
+                                                        <label for="tecnicoEmail"><i class="bi bi-envelope me-2"></i>Email Corporativo</label>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, informe um email válido.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="mb-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">
+                                                            <i class="bi bi-lock"></i>
+                                                        </span>
+                                                        <div class="form-floating flex-grow-1">
+                                                            <input type="password" class="form-control" id="tecnicoSenha" placeholder="Senha" required>
+                                                            <label for="tecnicoSenha">Senha</label>
+                                                        </div>
+                                                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                            <i class="bi bi-eye"></i>
+                                                        </button>
+                                                        <div class="invalid-feedback">
+                                                            Por favor, informe sua senha.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="tecnicoLembrar">
+                                                        <label class="form-check-label" for="tecnicoLembrar">
+                                                            Lembrar-me
+                                                        </label>
+                                                    </div>
+                                                    <a href="../recover/" class="text-evo-primary text-decoration-none">Esqueceu a senha?</a>
+                                                </div>
+                                                
+                                                <button type="submit" class="btn btn-evo-primary w-100 py-3 mb-4 glow-effect">
+                                                    <i class="bi bi-shield-check me-2"></i>
+                                                    Acesso Técnico
+                                                </button>
+                                                
+                                                <div class="text-center">
+                                                    <p class="mb-0 text-muted small">
+                                                        <i class="bi bi-info-circle me-1"></i>
+                                                        Acesso exclusivo para técnicos da EVO DRONES
+                                                    </p>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="../../../assets/js/main.js"></script>
+    
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            duration: 600,
+            once: true
+        });
+        
+        // Lógica de Login
+        document.getElementById('clienteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!this.checkValidity()) {
+                e.stopPropagation();
+                this.classList.add('was-validated');
+                return;
+            }
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Loading state
+            submitBtn.classList.add('btn-loading');
+            submitBtn.disabled = true;
+            
+            try {
+                // Simular chamada API
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Redirecionar para dashboard do cliente
+                window.location.href = '../../dashboard/client/';
+                
+            } catch (error) {
+                EvoDrones.showToast('Erro ao fazer login. Tente novamente.', 'danger');
+            } finally {
+                submitBtn.classList.remove('btn-loading');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+        
+        document.getElementById('tecnicoForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!this.checkValidity()) {
+                e.stopPropagation();
+                this.classList.add('was-validated');
+                return;
+            }
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Loading state
+            submitBtn.classList.add('btn-loading');
+            submitBtn.disabled = true;
+            
+            try {
+                // Simular chamada API
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Redirecionar para dashboard do técnico
+                window.location.href = '../../dashboard/technician/';
+                
+            } catch (error) {
+                EvoDrones.showToast('Erro ao fazer login. Tente novamente.', 'danger');
+            } finally {
+                submitBtn.classList.remove('btn-loading');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

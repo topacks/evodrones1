@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: evodrones_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: evodrones
+      POSTGRES_PASSWORD: evodrones_password
+      POSTGRES_DB: evodrones_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - evodrones_network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: evodrones_backend
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: evodrones
+      DB_PASSWORD: evodrones_password
+      DB_NAME: evodrones_db
+      JWT_SECRET: evodrones_jwt_secret_key
+      PORT: 8080
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - evodrones_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: evodrones_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:8080
+    networks:
+      - evodrones_network
+
+volumes:
+  postgres_data:
+
+networks:
+  evodrones_network:
+    driver: bridge

@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Cliente - EVO DRONES</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS - Animate On Scroll -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="../../../assets/css/main.css">
+
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: var(--evo-gradient-tech);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            z-index: 1000;
+            transition: var(--evo-transition);
+        }
+
+        .main-content {
+            margin-left: 280px;
+            transition: var(--evo-transition);
+        }
+
+        .sidebar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 1.5rem;
+            border-radius: 0;
+            transition: var(--evo-transition);
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: var(--evo-primary);
+        }
+
+        .sidebar-nav .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(48, 180, 232, 0.1);
+            transition: var(--evo-transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--evo-gradient-primary);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .drone-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(48, 180, 232, 0.1);
+            transition: var(--evo-transition);
+            position: relative;
+        }
+
+        .drone-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .status-maintenance {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .status-inactive {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
+
+        .quick-action-btn {
+            background: var(--evo-gradient-primary);
+            border: none;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--evo-transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--evo-glow);
+            color: white;
+        }
+
+        .navbar-top {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1rem 0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1.2rem;
+            width: 2px;
+            height: calc(100% + 0.5rem);
+            background: #e5e7eb;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .maintenance-order-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(48, 180, 232, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .maintenance-order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: var(--evo-primary);
+        }
+
+        .maintenance-order-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--evo-gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .maintenance-order-card:hover::before {
+            opacity: 1;
+        }
+
+        .create-new-card {
+            border: 2px dashed var(--evo-primary);
+            background: rgba(48, 180, 232, 0.02);
+        }
+
+        .create-new-card:hover {
+            background: rgba(48, 180, 232, 0.05);
+            border-style: solid;
+        }
+
+        .maintenance-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-analysis {
+            background: rgba(245, 158, 11, 0.1);
+            color: #d97706;
+        }
+
+        .status-approval {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        /* Modal Premium Styles */
+        .step-panel {
+            display: none;
+            min-height: 400px;
+        }
+
+        .step-panel.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .drone-selection-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Maintenance Type Cards */
+        .maintenance-type-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .maintenance-type-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .maintenance-type-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .maintenance-type-card.selected .card {
+            border: 2px solid var(--evo-primary);
+            background: rgba(48, 180, 232, 0.05);
+        }
+
+        /* Priority Options */
+        .priority-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .priority-option {
+            padding: 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .priority-option:hover {
+            background: rgba(48, 180, 232, 0.05);
+            border-color: var(--evo-primary);
+        }
+
+        .priority-option.selected {
+            background: rgba(48, 180, 232, 0.1);
+            border-color: var(--evo-primary);
+        }
+
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* Review Section */
+        .review-section {
+            background: rgba(248, 249, 250, 0.5);
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            height: 100%;
+        }
+
+        .review-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .review-content .review-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .review-content .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-content .review-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .review-content .review-value {
+            color: #6c757d;
+            text-align: right;
+        }
+
+        .drone-selection-card:hover .card {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .drone-selection-card.selected .card {
+            border: 2px solid var(--evo-primary);
+            background: rgba(48, 180, 232, 0.05);
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .inventory-slot {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 2rem 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .inventory-slot:hover {
+            border-color: var(--evo-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(48, 180, 232, 0.15);
+        }
+
+        .inventory-slot.selected {
+            border-color: var(--evo-primary);
+            background: rgba(48, 180, 232, 0.05);
+        }
+
+        .inventory-slot.required {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .inventory-slot i {
+            color: var(--evo-primary);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .inventory-slot:hover i {
+            transform: scale(1.1);
+        }
+
+        .inventory-slot h6 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #374151;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-quantity {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--evo-primary);
+            background: white;
+            color: var(--evo-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-quantity:hover {
+            background: var(--evo-primary);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .quantity-control input {
+            width: 60px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0.5rem;
+            font-weight: 600;
+        }
+
+        .quantity-control input:focus {
+            border-color: var(--evo-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(48, 180, 232, 0.1);
+        }
+
+        .required-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #10b981;
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .progress-container {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .stats-card {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .drone-card {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .quick-action-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.875rem;
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 0.5rem;
+            }
+            
+            .navbar-top {
+                padding: 0.5rem 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 0.5rem;
+            }
+            
+            .stats-card {
+                padding: 1rem;
+                text-align: center;
+            }
+            
+            .drone-card {
+                padding: 0.75rem;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .container-fluid {
+                padding: 0.5rem;
+            }
+            
+            .row {
+                margin: 0;
+            }
+            
+            .col-md-3, .col-md-6, .col-md-9 {
+                padding: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-evo-light">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="p-4">
+            <!-- Logo -->
+            <div class="d-flex align-items-center mb-4">
+                <span class="fw-bold fs-4 text-evo-primary">EVO</span>
+                <span class="fw-light fs-4 text-white ms-2">DRONES</span>
+            </div>
+
+            <!-- Menu -->
+            <ul class="nav flex-column sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#dashboard">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#drones">
+                        <i class="bi bi-drone"></i>
+                        <span>Meus Drones</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#maintenance">
+                        <i class="bi bi-tools"></i>
+                        <span>Manutenções</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#profile">
+                        <i class="bi bi-person"></i>
+                        <span>Perfil</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-auto">
+                    <a class="nav-link" href="/login" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <div class="main-content" id="mainContent">
+        <!-- Navbar Superior -->
+        <nav class="navbar-top">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-link d-md-none" id="sidebarToggle">
+                            <i class="bi bi-list fs-4"></i>
+                        </button>
+                        <div class="ms-3">
+                            <h4 class="mb-0 fw-bold text-evo-dark">Dashboard Cliente</h4>
+                            <small class="text-muted">Bem-vindo de volta!</small>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Notificações -->
+                        <div class="dropdown">
+                            <button class="btn btn-link position-relative" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell fs-5"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><h6 class="dropdown-header">Notificações</h6></li>
+                                <li><a class="dropdown-item" href="#">Manutenção concluída - DJI Mavic</a></li>
+                                <li><a class="dropdown-item" href="#">Novo relatório disponível</a></li>
+                                <li><a class="dropdown-item" href="#">Agendamento confirmado</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Perfil -->
+                        <div class="dropdown">
+                            <button class="btn btn-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                <div class="bg-evo-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <span class="fw-semibold" id="userName">João Silva</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                                <li><a class="dropdown-item" href="#settings"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/login" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Conteúdo das Páginas -->
+        <div class="container-fluid py-4">
+            <!-- Dashboard Principal -->
+            <div id="dashboardContent">
+                <!-- Cards de Estatísticas -->
+                <div class="row g-4 mb-4" data-aos="fade-up">
+                    <div class="col-md-4">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-evo-primary bg-opacity-10 text-evo-primary rounded-circle p-3">
+                                    <i class="bi bi-drone fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-evo-primary mb-1" id="totalDrones">3</h3>
+                            <p class="text-muted mb-0">Drones Cadastrados</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-success bg-opacity-10 text-success rounded-circle p-3">
+                                    <i class="bi bi-check-circle fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-success mb-1" id="completedMaintenance">5</h3>
+                            <p class="text-muted mb-0">Manutenções Concluídas</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="stats-card text-center">
+                            <div class="d-flex align-items-center justify-content-center mb-3">
+                                <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-3">
+                                    <i class="bi bi-clock fs-2"></i>
+                                </div>
+                            </div>
+                            <h3 class="fw-bold text-warning mb-1" id="pendingMaintenance">1</h3>
+                            <p class="text-muted mb-0">Em Manutenção</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="row g-4">
+                    <!-- Meus Drones -->
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold mb-0">Meus Drones</h5>
+                                <a href="#" class="text-evo-primary text-decoration-none" onclick="showPage('drones')">Ver todos</a>
+                            </div>
+                            <div id="dronesContainer">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="drone-card">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-drone text-evo-primary fs-3 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">DJI Mavic Air 2</h6>
+                                                        <small class="text-muted">Serial: MA2001234</small>
+                                                    </div>
+                                                </div>
+                                                <span class="status-badge status-active">Ativo</span>
+                                            </div>
+                                            <p class="text-muted small mb-3">Última manutenção: 15/05/2024</p>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-evo-primary btn-sm flex-fill">Ver Detalhes</button>
+                                                <button class="btn btn-evo-primary btn-sm flex-fill">Agendar Manutenção</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="drone-card">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-drone text-evo-primary fs-3 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">DJI Mini 3 Pro</h6>
+                                                        <small class="text-muted">Serial: M3P005678</small>
+                                                    </div>
+                                                </div>
+                                                <span class="status-badge status-maintenance">Em Manutenção</span>
+                                            </div>
+                                            <p class="text-muted small mb-3">Entrada: 20/05/2024</p>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-evo-primary btn-sm flex-fill">Acompanhar</button>
+                                                <button class="btn btn-outline-secondary btn-sm flex-fill">Relatório</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="drone-card">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="bi bi-drone text-evo-primary fs-3 me-3"></i>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">DJI Air 3</h6>
+                                                        <small class="text-muted">Serial: A3001890</small>
+                                                    </div>
+                                                </div>
+                                                <span class="status-badge status-active">Ativo</span>
+                                            </div>
+                                            <p class="text-muted small mb-3">Última manutenção: 10/04/2024</p>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-evo-primary btn-sm flex-fill">Ver Detalhes</button>
+                                                <button class="btn btn-evo-primary btn-sm flex-fill">Agendar Manutenção</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="drone-card border-2 border-dashed border-evo-primary bg-evo-primary bg-opacity-5">
+                                            <div class="text-center py-4">
+                                                <i class="bi bi-plus-circle text-evo-primary fs-1 mb-3"></i>
+                                                <h6 class="fw-bold text-evo-primary mb-2">Cadastrar Novo Drone</h6>
+                                                <p class="text-muted small mb-3">Adicione um novo drone ao seu sistema</p>
+                                                <button class="btn btn-evo-primary" onclick="showAddDroneModal()">
+                                                    <i class="bi bi-plus me-2"></i>Cadastrar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ordens de Manutenção -->
+                    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stats-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold mb-0">Ordens de Manutenção</h5>
+                                <button class="btn btn-evo-primary btn-sm" onclick="showCreateMaintenanceModal()">
+                                    <i class="bi bi-plus-circle me-2"></i>Nova Ordem
+                                </button>
+                            </div>
+                            <div id="maintenanceOrdersContainer">
+                                <div class="row g-3">
+                                    <!-- Ordem 1 - Em Análise -->
+                                    <div class="col-12">
+                                        <div class="maintenance-order-card" onclick="showMaintenanceDetails('OS-2024-001')">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="maintenance-icon bg-warning bg-opacity-10 text-warning rounded-circle p-2 me-3">
+                                                        <i class="bi bi-clock"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">OS-2024-001</h6>
+                                                        <small class="text-muted">DJI Mini 3 Pro</small>
+                                                    </div>
+                                                </div>
+                                                <span class="status-badge status-analysis">Em Análise</span>
+                                            </div>
+                                            <p class="text-muted small mb-2">Gimbal instável durante voo</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Criada: 20/05/2024</small>
+                                                <i class="bi bi-chevron-right text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ordem 2 - Aguardando Aprovação -->
+                                    <div class="col-12">
+                                        <div class="maintenance-order-card" onclick="showMaintenanceDetails('OS-2024-002')">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="maintenance-icon bg-info bg-opacity-10 text-info rounded-circle p-2 me-3">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">OS-2024-002</h6>
+                                                        <small class="text-muted">DJI Mavic Air 2</small>
+                                                    </div>
+                                                </div>
+                                                <span class="status-badge status-approval">Aguardando Aprovação</span>
+                                            </div>
+                                            <p class="text-muted small mb-2">Troca de hélices e calibração</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Orçamento: R$ 280,00</small>
+                                                <i class="bi bi-chevron-right text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Ordem 3 - Concluída -->
+                                    <div class="col-12">
+                                        <div class="maintenance-order-card" onclick="showMaintenanceDetails('OS-2024-003')">
+                                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="maintenance-icon bg-success bg-opacity-10 text-success rounded-circle p-2 me-3">
+                                                        <i class="bi bi-check-circle"></i>
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="fw-bold mb-1">OS-2024-003</h6>
+                                                        <small class="text-muted">DJI Air 3</small>
+                                                    </div>
+                                                </div>
+                                                <span class="status-badge status-completed">Concluída</span>
+                                            </div>
+                                            <p class="text-muted small mb-2">Manutenção preventiva completa</p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <small class="text-muted">Concluída: 15/05/2024</small>
+                                                <i class="bi bi-chevron-right text-muted"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card para criar nova ordem -->
+                                    <div class="col-12">
+                                        <div class="maintenance-order-card create-new-card" onclick="showCreateMaintenanceModal()">
+                                            <div class="text-center py-4">
+                                                <i class="bi bi-plus-circle text-evo-primary fs-1 mb-3"></i>
+                                                <h6 class="fw-bold text-evo-primary mb-2">Criar Nova Ordem</h6>
+                                                <p class="text-muted small mb-0">Solicite manutenção para seus drones</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Cadastro de Drone -->
+    <div class="modal fade" id="addDroneModal" tabindex="-1" aria-labelledby="addDroneModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-evo-primary text-white">
+                    <h5 class="modal-title" id="addDroneModalLabel">
+                        <i class="bi bi-drone me-2"></i>Cadastrar Novo Drone
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addDroneForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="droneBrand" required>
+                                        <option value="">Selecione a marca</option>
+                                        <option value="DJI">DJI</option>
+                                        <option value="Autel">Autel</option>
+                                        <option value="Parrot">Parrot</option>
+                                        <option value="Outros">Outros</option>
+                                    </select>
+                                    <label for="droneBrand">Marca</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="droneModel" placeholder="Modelo do Drone" required>
+                                    <label for="droneModel">Modelo</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="droneSerial" placeholder="Número de Série" required>
+                                    <label for="droneSerial">Número de Série</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <select class="form-select" id="droneColor" required>
+                                        <option value="">Selecione a cor</option>
+                                        <option value="Branco">Branco</option>
+                                        <option value="Preto">Preto</option>
+                                        <option value="Cinza">Cinza</option>
+                                        <option value="Azul">Azul</option>
+                                        <option value="Vermelho">Vermelho</option>
+                                        <option value="Verde">Verde</option>
+                                        <option value="Laranja">Laranja</option>
+                                        <option value="Amarelo">Amarelo</option>
+                                    </select>
+                                    <label for="droneColor">Cor</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mt-3">
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Dica:</strong> Certifique-se de que o número de série está correto. Ele será usado para identificar seu drone no sistema.
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-evo-primary" onclick="submitDroneForm()">
+                        <i class="bi bi-check-circle me-2"></i>Cadastrar Drone
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Criar Manutenção Premium -->
+    <div class="modal fade" id="createMaintenanceModal" tabindex="-1" aria-labelledby="createMaintenanceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-evo-primary text-white">
+                    <h5 class="modal-title" id="createMaintenanceModalLabel">
+                        <i class="bi bi-tools me-2"></i>Criar Ordem de Manutenção
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <!-- Progress Bar -->
+                    <div class="progress-container p-4 bg-light">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold mb-0">Progresso</h6>
+                            <span class="text-muted" id="stepCounter">Etapa 1 de 6</span>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-evo-primary" role="progressbar" style="width: 16.66%" id="progressBar"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <small class="text-muted">Equipamento</small>
+                            <small class="text-muted">Itens</small>
+                            <small class="text-muted">Peças</small>
+                            <small class="text-muted">Fotos</small>
+                            <small class="text-muted">Descrição</small>
+                            <small class="text-muted">Confirmação</small>
+                        </div>
+                    </div>
+
+                    <!-- Step Content -->
+                    <div class="step-content p-4" id="stepContent">
+                        <!-- Etapa 1: Seleção do Equipamento -->
+                        <div class="step-panel active" id="step1">
+                            <h5 class="fw-bold mb-4">Selecione o Equipamento</h5>
+                            <div class="row g-3" id="droneSelection">
+                                <!-- Drone cards will be populated here -->
+                                <div class="col-md-4">
+                                    <div class="drone-selection-card" data-drone-id="1">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-drone text-evo-primary fs-1 mb-3"></i>
+                                                <h6 class="fw-bold">DJI Mavic Air 2</h6>
+                                                <p class="text-muted small">Serial: MA2001234</p>
+                                                <span class="badge bg-success">Ativo</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="drone-selection-card" data-drone-id="2">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-drone text-evo-primary fs-1 mb-3"></i>
+                                                <h6 class="fw-bold">DJI Mini 3 Pro</h6>
+                                                <p class="text-muted small">Serial: M3P005678</p>
+                                                <span class="badge bg-warning">Em Manutenção</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="drone-selection-card" data-drone-id="3">
+                                        <div class="card h-100">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-drone text-evo-primary fs-1 mb-3"></i>
+                                                <h6 class="fw-bold">DJI Air 3</h6>
+                                                <p class="text-muted small">Serial: A3001890</p>
+                                                <span class="badge bg-success">Ativo</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Etapa 2: Itens que Acompanham (Design Especial) -->
+                        <div class="step-panel" id="step2">
+                            <h5 class="fw-bold mb-4">Itens que Acompanham o Drone</h5>
+                            <p class="text-muted mb-4">Selecione os itens que estão sendo enviados junto com o drone:</p>
+                            <div class="inventory-grid">
+                                <div class="inventory-item" data-item="bag">
+                                    <div class="inventory-slot">
+                                        <i class="bi bi-bag fs-1"></i>
+                                        <h6>Bag de Transporte</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="0" min="0" max="5">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inventory-item" data-item="radio">
+                                    <div class="inventory-slot">
+                                        <i class="bi bi-broadcast fs-1"></i>
+                                        <h6>Rádio Controle</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="0" min="0" max="3">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inventory-item" data-item="batteries">
+                                    <div class="inventory-slot">
+                                        <i class="bi bi-battery fs-1"></i>
+                                        <h6>Baterias</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="0" min="0" max="10">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inventory-item" data-item="propellers">
+                                    <div class="inventory-slot">
+                                        <i class="bi bi-fan fs-1"></i>
+                                        <h6>Hélices</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="0" min="0" max="20">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inventory-item" data-item="hub">
+                                    <div class="inventory-slot">
+                                        <i class="bi bi-plug fs-1"></i>
+                                        <h6>Hub de Carregamento</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="0" min="0" max="2">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inventory-item" data-item="strap">
+                                    <div class="inventory-slot">
+                                        <i class="bi bi-link-45deg fs-1"></i>
+                                        <h6>Alça de Fechamento</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="0" min="0" max="5">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inventory-item" data-item="drone" data-required="true">
+                                    <div class="inventory-slot required">
+                                        <i class="bi bi-drone fs-1"></i>
+                                        <h6>Drone</h6>
+                                        <div class="quantity-control">
+                                            <button type="button" class="btn-quantity minus">-</button>
+                                            <input type="number" value="1" min="1" max="1">
+                                            <button type="button" class="btn-quantity plus">+</button>
+                                        </div>
+                                        <span class="required-badge">Obrigatório</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Etapa 3: Descrição do Problema -->
+                        <div class="step-panel" id="step3">
+                            <h5 class="fw-bold mb-4">Descrição do Problema</h5>
+                            <p class="text-muted mb-4">Descreva detalhadamente o problema ou motivo da manutenção:</p>
+                            <div class="mb-4">
+                                <label for="problemDescription" class="form-label fw-bold">Descrição do Problema *</label>
+                                <textarea class="form-control" id="problemDescription" rows="4"
+                                    placeholder="Ex: Drone apresenta vibração excessiva durante o voo, possível problema nos motores..."></textarea>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="problemSeverity" class="form-label fw-bold">Gravidade</label>
+                                    <select class="form-select" id="problemSeverity">
+                                        <option value="">Selecione a gravidade</option>
+                                        <option value="baixa">Baixa - Não impede o uso</option>
+                                        <option value="media">Média - Uso limitado</option>
+                                        <option value="alta">Alta - Impede o uso</option>
+                                        <option value="critica">Crítica - Risco de segurança</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="problemCategory" class="form-label fw-bold">Categoria</label>
+                                    <select class="form-select" id="problemCategory">
+                                        <option value="">Selecione a categoria</option>
+                                        <option value="mecanico">Problema Mecânico</option>
+                                        <option value="eletronico">Problema Eletrônico</option>
+                                        <option value="software">Problema de Software</option>
+                                        <option value="bateria">Problema de Bateria</option>
+                                        <option value="camera">Problema de Câmera</option>
+                                        <option value="outros">Outros</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Etapa 4: Tipo de Manutenção e Prioridade -->
+                        <div class="step-panel" id="step4">
+                            <h5 class="fw-bold mb-4">Tipo de Manutenção e Prioridade</h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Tipo de Manutenção *</label>
+                                    <div class="maintenance-type-cards">
+                                        <div class="maintenance-type-card" data-type="preventiva">
+                                            <div class="card h-100">
+                                                <div class="card-body text-center">
+                                                    <i class="bi bi-shield-check text-success fs-1 mb-3"></i>
+                                                    <h6 class="fw-bold">Preventiva</h6>
+                                                    <p class="text-muted small">Manutenção programada regular</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="maintenance-type-card" data-type="corretiva">
+                                            <div class="card h-100">
+                                                <div class="card-body text-center">
+                                                    <i class="bi bi-tools text-warning fs-1 mb-3"></i>
+                                                    <h6 class="fw-bold">Corretiva</h6>
+                                                    <p class="text-muted small">Correção de problemas</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="maintenance-type-card" data-type="emergencial">
+                                            <div class="card h-100">
+                                                <div class="card-body text-center">
+                                                    <i class="bi bi-exclamation-triangle text-danger fs-1 mb-3"></i>
+                                                    <h6 class="fw-bold">Emergencial</h6>
+                                                    <p class="text-muted small">Reparo urgente</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Prioridade *</label>
+                                    <div class="priority-options">
+                                        <div class="form-check priority-option" data-priority="baixa">
+                                            <input class="form-check-input" type="radio" name="priority" id="priorityLow" value="baixa">
+                                            <label class="form-check-label" for="priorityLow">
+                                                <span class="priority-badge bg-success">Baixa</span>
+                                                <small class="d-block text-muted">Pode aguardar agendamento</small>
+                                            </label>
+                                        </div>
+                                        <div class="form-check priority-option" data-priority="media">
+                                            <input class="form-check-input" type="radio" name="priority" id="priorityMedium" value="media">
+                                            <label class="form-check-label" for="priorityMedium">
+                                                <span class="priority-badge bg-warning">Média</span>
+                                                <small class="d-block text-muted">Agendar em breve</small>
+                                            </label>
+                                        </div>
+                                        <div class="form-check priority-option" data-priority="alta">
+                                            <input class="form-check-input" type="radio" name="priority" id="priorityHigh" value="alta">
+                                            <label class="form-check-label" for="priorityHigh">
+                                                <span class="priority-badge bg-danger">Alta</span>
+                                                <small class="d-block text-muted">Atendimento prioritário</small>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Etapa 5: Informações Adicionais -->
+                        <div class="step-panel" id="step5">
+                            <h5 class="fw-bold mb-4">Informações Adicionais</h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label for="preferredDate" class="form-label fw-bold">Data Preferencial</label>
+                                    <input type="date" class="form-control" id="preferredDate">
+                                    <small class="text-muted">Data desejada para início da manutenção</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="estimatedDuration" class="form-label fw-bold">Duração Estimada</label>
+                                    <select class="form-select" id="estimatedDuration">
+                                        <option value="">Selecione a duração</option>
+                                        <option value="1-3">1-3 dias</option>
+                                        <option value="4-7">4-7 dias</option>
+                                        <option value="8-15">8-15 dias</option>
+                                        <option value="15+">Mais de 15 dias</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="additionalNotes" class="form-label fw-bold">Observações Adicionais</label>
+                                    <textarea class="form-control" id="additionalNotes" rows="3"
+                                        placeholder="Informações extras, instruções especiais, histórico de problemas anteriores..."></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="urgentService">
+                                        <label class="form-check-label" for="urgentService">
+                                            <strong>Serviço Urgente</strong> - Solicitar atendimento prioritário
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="pickupService">
+                                        <label class="form-check-label" for="pickupService">
+                                            <strong>Coleta no Local</strong> - Solicitar retirada do equipamento
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Etapa 6: Revisão e Confirmação -->
+                        <div class="step-panel" id="step6">
+                            <h5 class="fw-bold mb-4">Revisão e Confirmação</h5>
+                            <p class="text-muted mb-4">Revise todas as informações antes de finalizar a ordem de manutenção:</p>
+
+                            <div class="review-section">
+                                <div class="row g-4">
+                                    <div class="col-md-6">
+                                        <div class="review-card">
+                                            <h6 class="fw-bold text-evo-primary mb-3">
+                                                <i class="bi bi-drone me-2"></i>Equipamento
+                                            </h6>
+                                            <div id="reviewDrone" class="review-content">
+                                                <!-- Será preenchido dinamicamente -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="review-card">
+                                            <h6 class="fw-bold text-evo-primary mb-3">
+                                                <i class="bi bi-box me-2"></i>Itens Inclusos
+                                            </h6>
+                                            <div id="reviewItems" class="review-content">
+                                                <!-- Será preenchido dinamicamente -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="review-card">
+                                            <h6 class="fw-bold text-evo-primary mb-3">
+                                                <i class="bi bi-clipboard-data me-2"></i>Detalhes da Manutenção
+                                            </h6>
+                                            <div id="reviewDetails" class="review-content">
+                                                <!-- Será preenchido dinamicamente -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-info mt-4">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Importante:</strong> Após confirmar, você receberá um e-mail com os detalhes da ordem de manutenção e instruções para envio do equipamento.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-outline-evo-primary" id="prevStepBtn" onclick="previousStep()" style="display: none;">
+                        <i class="bi bi-arrow-left me-2"></i>Anterior
+                    </button>
+                    <button type="button" class="btn btn-evo-primary" id="nextStepBtn" onclick="nextStep()">
+                        Próximo<i class="bi bi-arrow-right ms-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="../../../assets/js/main.js"></script>
+
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            duration: 600,
+            once: true
+        });
+
+        // Função de logout
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.href = '/login';
+        }
+
+        // Mostrar modal de cadastro de drone
+        function showAddDroneModal() {
+            const modal = new bootstrap.Modal(document.getElementById('addDroneModal'));
+            modal.show();
+        }
+
+        // Mostrar modal de criar manutenção
+        function showCreateMaintenanceModal() {
+            const modal = new bootstrap.Modal(document.getElementById('createMaintenanceModal'));
+            modal.show();
+            resetMaintenanceModal();
+        }
+
+        // Submeter formulário de drone
+        function submitDroneForm() {
+            const brand = document.getElementById('droneBrand').value;
+            const model = document.getElementById('droneModel').value;
+            const serial = document.getElementById('droneSerial').value;
+            const color = document.getElementById('droneColor').value;
+
+            if (!brand || !model || !serial || !color) {
+                EvoDrones.showToast('Por favor, preencha todos os campos!', 'error');
+                return;
+            }
+
+            // Aqui seria feita a chamada para a API
+            EvoDrones.showToast('Drone cadastrado com sucesso!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('addDroneModal')).hide();
+
+            // Limpar formulário
+            document.getElementById('addDroneForm').reset();
+        }
+
+        // Mostrar detalhes da ordem de manutenção
+        function showMaintenanceDetails(orderId) {
+            EvoDrones.showToast(`Abrindo detalhes da ordem ${orderId}...`, 'info');
+        }
+
+        // Sistema de etapas do modal premium
+        let currentStep = 1;
+        const totalSteps = 6;
+        let selectedDrone = null;
+        let maintenanceData = {};
+
+        function resetMaintenanceModal() {
+            currentStep = 1;
+            selectedDrone = null;
+            maintenanceData = {};
+            updateStepDisplay();
+            resetAllSteps();
+        }
+
+        function updateStepDisplay() {
+            // Atualizar contador
+            document.getElementById('stepCounter').textContent = `Etapa ${currentStep} de ${totalSteps}`;
+
+            // Atualizar barra de progresso
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+
+            // Mostrar/ocultar botões
+            const prevBtn = document.getElementById('prevStepBtn');
+            const nextBtn = document.getElementById('nextStepBtn');
+
+            if (currentStep === 1) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'inline-block';
+            }
+
+            if (currentStep === totalSteps) {
+                nextBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Finalizar';
+            } else {
+                nextBtn.innerHTML = 'Próximo<i class="bi bi-arrow-right ms-2"></i>';
+            }
+
+            // Mostrar etapa atual
+            document.querySelectorAll('.step-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.getElementById(`step${currentStep}`).classList.add('active');
+
+            // Popular etapa de revisão se for a etapa 6
+            if (currentStep === 6) {
+                populateReviewStep();
+            }
+        }
+
+        function nextStep() {
+            if (validateCurrentStep()) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStepDisplay();
+                } else {
+                    submitMaintenanceOrder();
+                }
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+
+        function validateCurrentStep() {
+            switch (currentStep) {
+                case 1:
+                    if (!selectedDrone) {
+                        EvoDrones.showToast('Por favor, selecione um drone!', 'error');
+                        return false;
+                    }
+                    break;
+                case 2:
+                    // Validar se pelo menos o drone está selecionado
+                    const droneQuantity = document.querySelector('[data-item="drone"] input').value;
+                    if (droneQuantity < 1) {
+                        EvoDrones.showToast('O drone é obrigatório!', 'error');
+                        return false;
+                    }
+                    break;
+                case 3:
+                    // Validar descrição do problema
+                    const problemDescription = document.getElementById('problemDescription').value.trim();
+                    if (!problemDescription) {
+                        EvoDrones.showToast('Por favor, descreva o problema!', 'error');
+                        return false;
+                    }
+                    if (problemDescription.length < 10) {
+                        EvoDrones.showToast('A descrição deve ter pelo menos 10 caracteres!', 'error');
+                        return false;
+                    }
+                    break;
+                case 4:
+                    // Validar tipo de manutenção
+                    const selectedMaintenanceType = document.querySelector('.maintenance-type-card.selected');
+                    if (!selectedMaintenanceType) {
+                        EvoDrones.showToast('Por favor, selecione o tipo de manutenção!', 'error');
+                        return false;
+                    }
+
+                    // Validar prioridade
+                    const selectedPriority = document.querySelector('input[name="priority"]:checked');
+                    if (!selectedPriority) {
+                        EvoDrones.showToast('Por favor, selecione a prioridade!', 'error');
+                        return false;
+                    }
+                    break;
+                case 5:
+                    // Etapa 5 não tem campos obrigatórios, apenas opcionais
+                    break;
+                case 6:
+                    // Etapa 6 é apenas revisão, não precisa validação
+                    break;
+            }
+            return true;
+        }
+
+        function resetAllSteps() {
+            // Reset drone selection
+            document.querySelectorAll('.drone-selection-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Reset inventory
+            document.querySelectorAll('.inventory-item input').forEach(input => {
+                if (input.closest('[data-item="drone"]')) {
+                    input.value = 1;
+                } else {
+                    input.value = 0;
+                }
+            });
+
+            // Reset maintenance type selection
+            document.querySelectorAll('.maintenance-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Reset priority selection
+            document.querySelectorAll('input[name="priority"]').forEach(radio => {
+                radio.checked = false;
+            });
+            document.querySelectorAll('.priority-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Reset form fields
+            document.getElementById('problemDescription').value = '';
+            document.getElementById('problemSeverity').value = '';
+            document.getElementById('problemCategory').value = '';
+            document.getElementById('preferredDate').value = '';
+            document.getElementById('estimatedDuration').value = '';
+            document.getElementById('additionalNotes').value = '';
+            document.getElementById('urgentService').checked = false;
+            document.getElementById('pickupService').checked = false;
+        }
+
+        function populateReviewStep() {
+            // Popular informações do drone selecionado
+            const selectedDroneCard = document.querySelector('.drone-selection-card.selected');
+            const reviewDrone = document.getElementById('reviewDrone');
+            if (selectedDroneCard) {
+                const droneName = selectedDroneCard.querySelector('h6').textContent;
+                const droneSerial = selectedDroneCard.querySelector('.text-muted').textContent;
+                reviewDrone.innerHTML = `
+                    <div class="review-item">
+                        <span class="review-label">Modelo:</span>
+                        <span class="review-value">${droneName}</span>
+                    </div>
+                    <div class="review-item">
+                        <span class="review-label">Serial:</span>
+                        <span class="review-value">${droneSerial}</span>
+                    </div>
+                `;
+            }
+
+            // Popular itens inclusos
+            const reviewItems = document.getElementById('reviewItems');
+            const selectedItems = [];
+            document.querySelectorAll('.inventory-item input').forEach(input => {
+                const quantity = parseInt(input.value) || 0;
+                if (quantity > 0) {
+                    const itemName = input.closest('.inventory-item').querySelector('h6').textContent;
+                    selectedItems.push(`${itemName} (${quantity})`);
+                }
+            });
+
+            if (selectedItems.length > 0) {
+                reviewItems.innerHTML = selectedItems.map(item => `
+                    <div class="review-item">
+                        <span class="review-value">${item}</span>
+                    </div>
+                `).join('');
+            } else {
+                reviewItems.innerHTML = '<p class="text-muted">Nenhum item adicional selecionado</p>';
+            }
+
+            // Popular detalhes da manutenção
+            const reviewDetails = document.getElementById('reviewDetails');
+            const problemDescription = document.getElementById('problemDescription').value;
+            const problemSeverity = document.getElementById('problemSeverity').value;
+            const problemCategory = document.getElementById('problemCategory').value;
+            const selectedMaintenanceType = document.querySelector('.maintenance-type-card.selected');
+            const selectedPriority = document.querySelector('input[name="priority"]:checked');
+            const preferredDate = document.getElementById('preferredDate').value;
+            const additionalNotes = document.getElementById('additionalNotes').value;
+
+            let detailsHTML = `
+                <div class="review-item">
+                    <span class="review-label">Descrição:</span>
+                    <span class="review-value">${problemDescription || 'Não informado'}</span>
+                </div>
+            `;
+
+            if (problemSeverity) {
+                const severityText = document.querySelector(`#problemSeverity option[value="${problemSeverity}"]`).textContent;
+                detailsHTML += `
+                    <div class="review-item">
+                        <span class="review-label">Gravidade:</span>
+                        <span class="review-value">${severityText}</span>
+                    </div>
+                `;
+            }
+
+            if (problemCategory) {
+                const categoryText = document.querySelector(`#problemCategory option[value="${problemCategory}"]`).textContent;
+                detailsHTML += `
+                    <div class="review-item">
+                        <span class="review-label">Categoria:</span>
+                        <span class="review-value">${categoryText}</span>
+                    </div>
+                `;
+            }
+
+            if (selectedMaintenanceType) {
+                const maintenanceTypeText = selectedMaintenanceType.querySelector('h6').textContent;
+                detailsHTML += `
+                    <div class="review-item">
+                        <span class="review-label">Tipo:</span>
+                        <span class="review-value">${maintenanceTypeText}</span>
+                    </div>
+                `;
+            }
+
+            if (selectedPriority) {
+                const priorityText = selectedPriority.nextElementSibling.querySelector('.priority-badge').textContent;
+                detailsHTML += `
+                    <div class="review-item">
+                        <span class="review-label">Prioridade:</span>
+                        <span class="review-value">${priorityText}</span>
+                    </div>
+                `;
+            }
+
+            if (preferredDate) {
+                const formattedDate = new Date(preferredDate).toLocaleDateString('pt-BR');
+                detailsHTML += `
+                    <div class="review-item">
+                        <span class="review-label">Data Preferencial:</span>
+                        <span class="review-value">${formattedDate}</span>
+                    </div>
+                `;
+            }
+
+            if (additionalNotes) {
+                detailsHTML += `
+                    <div class="review-item">
+                        <span class="review-label">Observações:</span>
+                        <span class="review-value">${additionalNotes}</span>
+                    </div>
+                `;
+            }
+
+            reviewDetails.innerHTML = detailsHTML;
+        }
+
+        function submitMaintenanceOrder() {
+            EvoDrones.showToast('Ordem de manutenção criada com sucesso!', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('createMaintenanceModal')).hide();
+        }
+
+        function showPage(page) {
+            EvoDrones.showToast(`Navegando para ${page}...`, 'info');
+        }
+
+        // Toggle sidebar mobile
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('show');
+        });
+
+        // Event listeners para o modal premium
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleção de drone
+            document.querySelectorAll('.drone-selection-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove seleção anterior
+                    document.querySelectorAll('.drone-selection-card').forEach(c => c.classList.remove('selected'));
+
+                    // Adiciona seleção atual
+                    this.classList.add('selected');
+                    selectedDrone = this.dataset.droneId;
+                });
+            });
+
+            // Controles de quantidade
+            document.querySelectorAll('.btn-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const isPlus = this.classList.contains('plus');
+                    const currentValue = parseInt(input.value) || 0;
+                    const min = parseInt(input.min) || 0;
+                    const max = parseInt(input.max) || 999;
+
+                    if (isPlus && currentValue < max) {
+                        input.value = currentValue + 1;
+                    } else if (!isPlus && currentValue > min) {
+                        input.value = currentValue - 1;
+                    }
+
+                    // Atualizar visual do slot
+                    const slot = this.closest('.inventory-slot');
+                    if (input.value > 0) {
+                        slot.classList.add('selected');
+                    } else {
+                        slot.classList.remove('selected');
+                    }
+
+                    // Trigger change event
+                    input.dispatchEvent(new Event('change'));
+                });
+            });
+
+            // Input direto de quantidade
+            document.querySelectorAll('.quantity-control input').forEach(input => {
+                input.addEventListener('change', function() {
+                    const min = parseInt(this.min) || 0;
+                    const max = parseInt(this.max) || 999;
+                    let value = parseInt(this.value) || 0;
+
+                    // Validar limites
+                    if (value < min) value = min;
+                    if (value > max) value = max;
+                    this.value = value;
+
+                    // Atualizar visual do slot
+                    const slot = this.closest('.inventory-slot');
+                    if (value > 0) {
+                        slot.classList.add('selected');
+                    } else {
+                        slot.classList.remove('selected');
+                    }
+                });
+            });
+
+            // Event listeners para seleção de tipo de manutenção
+            document.querySelectorAll('.maintenance-type-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    // Remove seleção anterior
+                    document.querySelectorAll('.maintenance-type-card').forEach(c => c.classList.remove('selected'));
+
+                    // Adiciona seleção atual
+                    this.classList.add('selected');
+                });
+            });
+
+            // Event listeners para seleção de prioridade
+            document.querySelectorAll('input[name="priority"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove seleção visual anterior
+                    document.querySelectorAll('.priority-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+
+                    // Adiciona seleção visual atual
+                    this.closest('.priority-option').classList.add('selected');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
